@@ -11,7 +11,10 @@ import SwiftUI
 struct MobileApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            // Starting with splash screen.
+            // Setting default colorscheme to dark for easer consistency.
+            SplashView()
+                .preferredColorScheme(.dark)
         }
     }
 }
