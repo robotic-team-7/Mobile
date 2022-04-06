@@ -14,30 +14,26 @@ struct ConnectView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.scheme.background.ignoresSafeArea()
+                Color.scheme.bg
                 VStack {
                     Text("Enter Mower Address")
                         .font(.largeTitle)
-                        .foregroundColor(Color.scheme.foreground)
                     HStack {
                         TextField("", text: $mowerAddress)
-                            .padding()
-                            .background(Color.scheme.foreground)
+                            .padding(.top)
+                            .background(Color.scheme.fg)
                             .foregroundColor(.black)
-                            .cornerRadius(12) /// corner radius immediately after the background
-                            .padding() /// extra padding outside the background
+                            .cornerRadius(12)
+                            .padding(.bottom)
                     }
                     HStack(alignment: .center) {
                         Button(action: {
                             print("Starting Mowing!")
                         }) {
                             Text("Start")
-                                .foregroundColor(Color.scheme.foreground)
                                 .frame(maxWidth: .infinity)
                         }
-                        .padding(.leading)
                         .buttonStyle(.bordered)
-                        .tint(Color.scheme.foreground)
                         .disabled(false)
                         .frame(maxWidth: .infinity)
                         
@@ -45,16 +41,13 @@ struct ConnectView: View {
                             print("Starting Mowing!")
                         }) {
                             Text("Start")
-                                .foregroundColor(Color.scheme.disabledForeground)
                                 .frame(maxWidth: .infinity)
                         }
                         .buttonStyle(.bordered)
-                        .tint(Color.scheme.disabledForeground)
                         .disabled(true)
                         .frame(maxWidth: .infinity)
-                        .padding(.trailing)
                     }
-                }
+                }.padding()
             }
             .navigationTitle("Mower Connection")
             .navigationBarTitleDisplayMode(.inline)

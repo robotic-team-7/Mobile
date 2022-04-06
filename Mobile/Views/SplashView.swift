@@ -10,7 +10,7 @@ struct SplashView: View {
     @State var isActive:Bool = false
     var body: some View {
         ZStack {
-            Color.scheme.background
+            Color.scheme.bg
                 .ignoresSafeArea()
             VStack {
                 if self.isActive {

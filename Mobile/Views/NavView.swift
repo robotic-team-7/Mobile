@@ -11,26 +11,18 @@ struct NavView: View {
     
     // Applying navigation control theme
     init() {
-        
-        //        let tabAppearence = UITabBarAppearance()
-        //        tabAppearence.backgroundColor = UIColor(Color.scheme.accent)
-        //        tabAppearence.selectionIndicatorTintColor = UIColor(Color.scheme.selected)
-        //        tabAppearence.configureWithOpaqueBackground()
-        //        UITabBar.appearance().standardAppearance = tabAppearence
-        UITabBar.appearance().backgroundColor = UIColor(Color.scheme.accent)
-        UITabBar.appearance().tintColor = UIColor(Color.scheme.selected)
-        UITabBar.appearance().barTintColor = UIColor(Color.scheme.accent)
-        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.scheme.foreground)
-        
+        // Setting tabbar appearance
+        UITabBar.appearance().backgroundColor = UIColor(Color.scheme.darkBg)
+        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.scheme.darkerFg)
+        // Setting navigationbar appearance
         let navigationAppearance = UINavigationBarAppearance()
         navigationAppearance.configureWithOpaqueBackground()
-        navigationAppearance.backgroundColor = UIColor(Color.scheme.accent)
-        navigationAppearance.titleTextAttributes = [.foregroundColor: UIColor(Color.scheme.foreground)]
-        navigationAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(Color.scheme.foreground)]
+        navigationAppearance.backgroundColor = UIColor(Color.scheme.darkBg)
+        navigationAppearance.titleTextAttributes = [.foregroundColor: UIColor(Color.scheme.fg)]
+        navigationAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(Color.scheme.fg)]
         UINavigationBar.appearance().standardAppearance = navigationAppearance
         UINavigationBar.appearance().compactAppearance = navigationAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navigationAppearance
-        UINavigationBar.appearance().tintColor = UIColor(Color.scheme.accent)
     }
     
     var body: some View {

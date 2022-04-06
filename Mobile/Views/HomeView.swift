@@ -11,8 +11,7 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.scheme.background
-                    .ignoresSafeArea()
+                Color.scheme.bg
                 Text("Home Page")
                 
             }

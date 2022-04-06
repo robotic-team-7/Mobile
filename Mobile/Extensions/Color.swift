@@ -13,10 +13,10 @@ extension Color {
 }
 
 struct ColorScheme {
-    let accent = Color("Accent")
-    let disabledAccent = Color("DisabledAccent")
-    let background = Color("Background")
-    let foreground = Color("Foreground")
-    let disabledForeground = Color("DisabledForeground")
-    let selected = Color("Selected")
+    let bg = Color("Background")
+    let darkBg = Color("DarkBackground")
+    let darkerBg = Color("DarkerBackground")
+    let fg = Color("Foreground")
+    let darkerFg = Color("DarkerForeground")
+    let darkFg = Color("DarkForeground")
 }
