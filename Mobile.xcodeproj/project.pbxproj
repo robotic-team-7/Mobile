@@ -19,6 +19,7 @@
 		CEE7F53C27F4480C00913F7F /* MobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F53B27F4480C00913F7F /* MobileTests.swift */; };
 		CEE7F54627F4480C00913F7F /* MobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F54527F4480C00913F7F /* MobileUITests.swift */; };
 		CEE7F54827F4480C00913F7F /* MobileUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F54727F4480C00913F7F /* MobileUITestsLaunchTests.swift */; };
+		D36B458D28048CA000E4310A /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36B458C28048CA000E4310A /* GalleryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		CEE7F54127F4480C00913F7F /* MobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE7F54527F4480C00913F7F /* MobileUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileUITests.swift; sourceTree = "<group>"; };
 		CEE7F54727F4480C00913F7F /* MobileUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D36B458C28048CA000E4310A /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				CEAF439B27FC95D200C21F5B /* HomeView.swift */,
 				CEAF439D27FC968800C21F5B /* ConnectView.swift */,
 				CEAF439F27FC96F700C21F5B /* NavView.swift */,
+				D36B458C28048CA000E4310A /* GalleryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				CEE7F52B27F4480900913F7F /* MobileApp.swift in Sources */,
 				CEAF439E27FC968800C21F5B /* ConnectView.swift in Sources */,
 				CEAF439A27FC95B100C21F5B /* SplashView.swift in Sources */,
+				D36B458D28048CA000E4310A /* GalleryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
