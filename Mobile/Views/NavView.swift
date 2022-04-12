@@ -27,10 +27,10 @@ struct NavView: View {
     
     var body: some View {
         TabView {
-            HomeView()
+            DashboardView()
                 .tabItem {
                     Image(systemName: "house.fill")
-                    Text("Home")
+                    Text("Dashboard")
                 }
             ConnectView()
                 .tabItem {
