@@ -38,7 +38,7 @@ struct NavView: View {
                     Text("Connect")
                 }
             // Replace with actual views later on
-            Text("Map")
+            MapView()
                 .tabItem {
                     Image(systemName: "map.fill")
                     Text("Map")
