@@ -9,40 +9,50 @@ import SwiftUI
 
 struct MapView: View {
     @State private var lines = [Line]()
+    @State private var mower = CGPoint()
     @State private var undoLines = [Line]()
     var body: some View {
         NavigationView {
             ZStack {
                 Color.scheme.bg
-                VStack {
+                ZStack {
                     Canvas { context, size in
                         for line in lines {
                             let path = createPath(for: line.points)
                             context.stroke(path,
                                            with: .color(line.color),
-                                           lineWidth: 4)
+                                           style: StrokeStyle(lineWidth: line.linewidth, dash: [line.dash]))
                         }
                     }
                     .gesture(DragGesture(minimumDistance: 0).onChanged({ value in
-                        if value.translation.width + value.translation.height == 0 {
-                            // length of line is zero -> new line
-                            lines.append(Line(points: [CGPoint](), linewidth: 1, color: .green))
-                        } else {
-                            print(value.location)
-                            let index = lines.count - 1
-                            lines[index].points.append(value.location)
+                        print(value.location)
+                        mower = value.location
+                        if lines.isEmpty {
+                            lines.append(Line(points: [CGPoint](), linewidth: 5, dash: 5, color: .black))
                         }
+                        let index = lines.count - 1
+                        lines[index].points.append(value.location)
+                        
+                        
+//                        if value.translation.width + value.translation.height == 0 {
+//                            // length of line is zero -> new line
+//                            lines.append(Line(points: [CGPoint](), linewidth: 1, color: .black))
+//                        } else {
+//                            print(value.location)
+//                            let index = lines.count - 1
+//                            lines[index].points.append(value.location)
+//                        }
                     }))
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    
-                    HStack {
-                        Button("Create Line", role: .destructive) {
-                            lines.append(Line(points: [CGPoint(x: 150.0, y: 150.0)], linewidth: 1, color: .green))
-                            lines[lines.startIndex].points.append(CGPoint(x: 300.0, y: 150.0))
-                            lines[lines.startIndex].points.append(CGPoint(x: 300.0, y: 300.0))
-                            lines[lines.startIndex].points.append(CGPoint(x: 150.0, y: 300.0))
-                        }
-                    }
+                    .background(Image("grasslight-big").resizable().aspectRatio(contentMode: .fill))
+                    .cornerRadius(25)
+                    .overlay(RoundedRectangle(cornerRadius: 25).stroke(Color.white, lineWidth: 2))
+                    .padding()
+                    Image(systemName: "mappin.and.ellipse")
+                        //.frame(alignment: .topLeading)
+                        .position(mower)
+                        .font(.title2)
+                        .padding()
+                        
                 }
                 .navigationTitle("Map")
                 .navigationBarTitleDisplayMode(.inline)
@@ -77,3 +87,12 @@ struct MapView_Previews: PreviewProvider {
         MapView()
     }
 }
+
+struct Line: Identifiable {
+    var points: [CGPoint]
+    var linewidth: CGFloat
+    var dash: CGFloat
+    var color: Color
+    let id = UUID()
+}
+
