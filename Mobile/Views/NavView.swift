@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NavView: View {
-    
+    @EnvironmentObject private var serverConfiguration: ServerConfiguration
     // Applying navigation control theme
     init() {
         // Setting tabbar appearance
@@ -26,28 +26,33 @@ struct NavView: View {
     }
     
     var body: some View {
-        TabView {
-            DashboardView()
-                .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Dashboard")
-                }
-            ConnectView()
-                .tabItem {
-                    Image(systemName: "point.3.filled.connected.trianglepath.dotted")
-                    Text("Connect")
-                }
-            // Replace with actual views later on
-            MapView()
-                .tabItem {
-                    Image(systemName: "map.fill")
-                    Text("Map")
-                }
-            Text("Gallery")
-                .tabItem {
-                    Image(systemName:"photo.fill")
-                    Text("Gallery")
-                }
+        if (!serverConfiguration.isConnected) {
+            ServerConnectView()
+        }
+        else {
+            TabView {
+                DashboardView()
+                    .tabItem {
+                        Image(systemName: "house.fill")
+                        Text("Dashboard")
+                    }
+                ConnectView()
+                    .tabItem {
+                        Image(systemName: "point.3.filled.connected.trianglepath.dotted")
+                        Text("Connect")
+                    }
+                // Replace with actual views later on
+                MapView()
+                    .tabItem {
+                        Image(systemName: "map.fill")
+                        Text("Map")
+                    }
+                Text("Gallery")
+                    .tabItem {
+                        Image(systemName:"photo.fill")
+                        Text("Gallery")
+                    }
+            }
         }
     }
 }
