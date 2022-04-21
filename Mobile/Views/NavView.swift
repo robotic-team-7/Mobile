@@ -36,10 +36,10 @@ struct NavView: View {
                         Image(systemName: "house.fill")
                         Text("Dashboard")
                     }
-                ConnectView()
+                Text("Remote")
                     .tabItem {
                         Image(systemName: "point.3.filled.connected.trianglepath.dotted")
-                        Text("Connect")
+                        Text("Remote")
                     }
                 // Replace with actual views later on
                 MapView()
