@@ -36,9 +36,9 @@ struct NavView: View {
                         Image(systemName: "house.fill")
                         Text("Dashboard")
                     }
-                Text("Remote")
+                ControllerView()
                     .tabItem {
-                        Image(systemName: "point.3.filled.connected.trianglepath.dotted")
+                        Image(systemName: "gamecontroller.fill")
                         Text("Remote")
                     }
                 // Replace with actual views later on
