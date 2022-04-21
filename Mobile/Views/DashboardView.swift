@@ -51,13 +51,9 @@ struct DashboardView: View {
                     .buttonStyle(.bordered)
                     .disabled(false)
                 }.padding(10)
- 
-                
             }
             .navigationTitle("Dashboard")
             .navigationBarTitleDisplayMode(.inline)
-            
-            
         }
     }
     // builder for reusable status item.

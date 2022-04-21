@@ -24,7 +24,7 @@ struct NavView: View {
         UINavigationBar.appearance().compactAppearance = navigationAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navigationAppearance
     }
-    
+
     var body: some View {
         if (!serverConfiguration.isConnected) {
             ServerConnectView()
@@ -47,7 +47,8 @@ struct NavView: View {
                         Image(systemName: "map.fill")
                         Text("Map")
                     }
-                Text("Gallery")
+
+                GalleryView()
                     .tabItem {
                         Image(systemName:"photo.fill")
                         Text("Gallery")
