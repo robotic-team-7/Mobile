@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		CEAF439A27FC95B100C21F5B /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439927FC95B100C21F5B /* SplashView.swift */; };
-		CEAF439C27FC95D200C21F5B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439B27FC95D200C21F5B /* HomeView.swift */; };
+		CEAF439C27FC95D200C21F5B /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439B27FC95D200C21F5B /* DashboardView.swift */; };
 		CEAF439E27FC968800C21F5B /* ConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439D27FC968800C21F5B /* ConnectView.swift */; };
 		CEAF43A027FC96F700C21F5B /* NavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439F27FC96F700C21F5B /* NavView.swift */; };
+		CEB7FF802806B88200307F04 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7FF7F2806B88200307F04 /* MapView.swift */; };
 		CEC2A0A827FCA05E009A5144 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC2A0A727FCA05E009A5144 /* Color.swift */; };
 		CEE7F52B27F4480900913F7F /* MobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F52A27F4480900913F7F /* MobileApp.swift */; };
 		CEE7F52D27F4480900913F7F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F52C27F4480900913F7F /* ContentView.swift */; };
@@ -41,9 +42,10 @@
 
 /* Begin PBXFileReference section */
 		CEAF439927FC95B100C21F5B /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
-		CEAF439B27FC95D200C21F5B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		CEAF439B27FC95D200C21F5B /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		CEAF439D27FC968800C21F5B /* ConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectView.swift; sourceTree = "<group>"; };
 		CEAF439F27FC96F700C21F5B /* NavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavView.swift; sourceTree = "<group>"; };
+		CEB7FF7F2806B88200307F04 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		CEC2A0A727FCA05E009A5144 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		CEE7F52727F4480900913F7F /* Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE7F52A27F4480900913F7F /* MobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileApp.swift; sourceTree = "<group>"; };
@@ -87,10 +89,12 @@
 			isa = PBXGroup;
 			children = (
 				CEAF439927FC95B100C21F5B /* SplashView.swift */,
-				CEAF439B27FC95D200C21F5B /* HomeView.swift */,
+				CEAF439B27FC95D200C21F5B /* DashboardView.swift */,
 				CEAF439D27FC968800C21F5B /* ConnectView.swift */,
 				CEAF439F27FC96F700C21F5B /* NavView.swift */,
 				D36B458C28048CA000E4310A /* GalleryView.swift */,
+				CEB7FF7F2806B88200307F04 /* MapView.swift */,
+
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -308,9 +312,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEAF43A027FC96F700C21F5B /* NavView.swift in Sources */,
+				CEB7FF802806B88200307F04 /* MapView.swift in Sources */,
 				CEE7F52D27F4480900913F7F /* ContentView.swift in Sources */,
 				CEC2A0A827FCA05E009A5144 /* Color.swift in Sources */,
-				CEAF439C27FC95D200C21F5B /* HomeView.swift in Sources */,
+				CEAF439C27FC95D200C21F5B /* DashboardView.swift in Sources */,
 				CEE7F52B27F4480900913F7F /* MobileApp.swift in Sources */,
 				CEAF439E27FC968800C21F5B /* ConnectView.swift in Sources */,
 				CEAF439A27FC95B100C21F5B /* SplashView.swift in Sources */,
