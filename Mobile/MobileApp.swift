@@ -15,6 +15,7 @@ struct MobileApp: App {
             // Setting default colorscheme to dark for easer consistency.
             SplashView()
                 .preferredColorScheme(.dark)
+                .environmentObject(ServerConfiguration(serverAddress: "192.168.1.1", isConnected: false))
         }
     }
 }
