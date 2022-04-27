@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ControllerView: View {
+    @StateObject var bleDelegate = BleDelegate()
     var body: some View {
         ZStack {
             Color.scheme.bg
@@ -36,6 +37,7 @@ struct ControllerView: View {
                 HStack {
                     Spacer()
                     Button(action: {
+                        bleDelegate.sendCommand(command: 3)
                     }) {
                         Image(systemName: "arrowtriangle.up.fill")
                             .font(.largeTitle)
@@ -46,6 +48,7 @@ struct ControllerView: View {
                 }
                 HStack(alignment:.center) {
                     Button(action: {
+                        bleDelegate.sendCommand(command: 1)
                     }) {
                         Image(systemName: "arrowtriangle.left.fill")
                             .font(.largeTitle)
@@ -64,6 +67,7 @@ struct ControllerView: View {
                     .buttonStyle(.bordered)
                     .hidden()
                     Button(action: {
+                        bleDelegate.sendCommand(command: 4)
                     }) {
                         Image(systemName: "arrowtriangle.right.fill")
                             .font(.largeTitle)
@@ -74,6 +78,7 @@ struct ControllerView: View {
                 HStack {
                     Spacer()
                     Button(action: {
+                        bleDelegate.sendCommand(command: 2)
                     }) {
                         Image(systemName: "arrowtriangle.down.fill")
                             .font(.largeTitle)

@@ -10,6 +10,7 @@
 		CE0ECE26281174DC00ACC3CC /* ControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0ECE25281174DC00ACC3CC /* ControllerView.swift */; };
 		CE6001EB280F245B00D1DD03 /* ServerConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6001EA280F245B00D1DD03 /* ServerConnectView.swift */; };
 		CE66C03D280F403F00ED786B /* ServerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE66C03C280F403F00ED786B /* ServerConfiguration.swift */; };
+		CEA4D4D128192AFC00FF0AE9 /* BleDelagate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA4D4D028192AFC00FF0AE9 /* BleDelagate.swift */; };
 		CEAF439A27FC95B100C21F5B /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439927FC95B100C21F5B /* SplashView.swift */; };
 		CEAF439C27FC95D200C21F5B /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439B27FC95D200C21F5B /* DashboardView.swift */; };
 		CEAF43A027FC96F700C21F5B /* NavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439F27FC96F700C21F5B /* NavView.swift */; };
@@ -47,6 +48,7 @@
 		CE0ECE25281174DC00ACC3CC /* ControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerView.swift; sourceTree = "<group>"; };
 		CE6001EA280F245B00D1DD03 /* ServerConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConnectView.swift; sourceTree = "<group>"; };
 		CE66C03C280F403F00ED786B /* ServerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfiguration.swift; sourceTree = "<group>"; };
+		CEA4D4D028192AFC00FF0AE9 /* BleDelagate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleDelagate.swift; sourceTree = "<group>"; };
 		CEAF439927FC95B100C21F5B /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		CEAF439B27FC95D200C21F5B /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		CEAF439F27FC96F700C21F5B /* NavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavView.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 		CEAF439727FC956B00C21F5B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				CEA4D4D028192AFC00FF0AE9 /* BleDelagate.swift */,
 				CE66C03C280F403F00ED786B /* ServerConfiguration.swift */,
 				D36B4590280845CB00E4310A /* ApiModel.swift */,
 			);
@@ -323,6 +326,7 @@
 				CE66C03D280F403F00ED786B /* ServerConfiguration.swift in Sources */,
 				CE0ECE26281174DC00ACC3CC /* ControllerView.swift in Sources */,
 				CEAF439A27FC95B100C21F5B /* SplashView.swift in Sources */,
+				CEA4D4D128192AFC00FF0AE9 /* BleDelagate.swift in Sources */,
 				CEAF439C27FC95D200C21F5B /* DashboardView.swift in Sources */,
 				CEAF43A027FC96F700C21F5B /* NavView.swift in Sources */,
 				CEB7FF802806B88200307F04 /* MapView.swift in Sources */,
