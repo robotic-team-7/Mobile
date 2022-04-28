@@ -10,12 +10,14 @@
 		CE0ECE26281174DC00ACC3CC /* ControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0ECE25281174DC00ACC3CC /* ControllerView.swift */; };
 		CE6001EB280F245B00D1DD03 /* ServerConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6001EA280F245B00D1DD03 /* ServerConnectView.swift */; };
 		CE66C03D280F403F00ED786B /* ServerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE66C03C280F403F00ED786B /* ServerConfiguration.swift */; };
-		CEA4D4D128192AFC00FF0AE9 /* BleDelagate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA4D4D028192AFC00FF0AE9 /* BleDelagate.swift */; };
 		CEAF439A27FC95B100C21F5B /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439927FC95B100C21F5B /* SplashView.swift */; };
 		CEAF439C27FC95D200C21F5B /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439B27FC95D200C21F5B /* DashboardView.swift */; };
 		CEAF43A027FC96F700C21F5B /* NavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439F27FC96F700C21F5B /* NavView.swift */; };
+		CEB4BF4E281B15C0009BB1F2 /* CBUUIDs.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB4BF4D281B15C0009BB1F2 /* CBUUIDs.swift */; };
+		CEB4BF50281B16F3009BB1F2 /* BlePeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB4BF4F281B16F3009BB1F2 /* BlePeripheral.swift */; };
 		CEB7FF802806B88200307F04 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7FF7F2806B88200307F04 /* MapView.swift */; };
 		CEC2A0A827FCA05E009A5144 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC2A0A727FCA05E009A5144 /* Color.swift */; };
+		CEC53A26281AE09C00352615 /* BleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC53A25281AE09C00352615 /* BleManager.swift */; };
 		CEE7F52B27F4480900913F7F /* MobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F52A27F4480900913F7F /* MobileApp.swift */; };
 		CEE7F52D27F4480900913F7F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F52C27F4480900913F7F /* ContentView.swift */; };
 		CEE7F52F27F4480B00913F7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEE7F52E27F4480B00913F7F /* Assets.xcassets */; };
@@ -48,12 +50,14 @@
 		CE0ECE25281174DC00ACC3CC /* ControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerView.swift; sourceTree = "<group>"; };
 		CE6001EA280F245B00D1DD03 /* ServerConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConnectView.swift; sourceTree = "<group>"; };
 		CE66C03C280F403F00ED786B /* ServerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfiguration.swift; sourceTree = "<group>"; };
-		CEA4D4D028192AFC00FF0AE9 /* BleDelagate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleDelagate.swift; sourceTree = "<group>"; };
 		CEAF439927FC95B100C21F5B /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		CEAF439B27FC95D200C21F5B /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		CEAF439F27FC96F700C21F5B /* NavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavView.swift; sourceTree = "<group>"; };
+		CEB4BF4D281B15C0009BB1F2 /* CBUUIDs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBUUIDs.swift; sourceTree = "<group>"; };
+		CEB4BF4F281B16F3009BB1F2 /* BlePeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlePeripheral.swift; sourceTree = "<group>"; };
 		CEB7FF7F2806B88200307F04 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		CEC2A0A727FCA05E009A5144 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		CEC53A25281AE09C00352615 /* BleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleManager.swift; sourceTree = "<group>"; };
 		CEE7F52727F4480900913F7F /* Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE7F52A27F4480900913F7F /* MobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileApp.swift; sourceTree = "<group>"; };
 		CEE7F52C27F4480900913F7F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -110,7 +114,7 @@
 		CEAF439727FC956B00C21F5B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				CEA4D4D028192AFC00FF0AE9 /* BleDelagate.swift */,
+				CEB4BF4C281B15A1009BB1F2 /* Ble */,
 				CE66C03C280F403F00ED786B /* ServerConfiguration.swift */,
 				D36B4590280845CB00E4310A /* ApiModel.swift */,
 			);
@@ -122,6 +126,16 @@
 			children = (
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CEB4BF4C281B15A1009BB1F2 /* Ble */ = {
+			isa = PBXGroup;
+			children = (
+				CEC53A25281AE09C00352615 /* BleManager.swift */,
+				CEB4BF4D281B15C0009BB1F2 /* CBUUIDs.swift */,
+				CEB4BF4F281B16F3009BB1F2 /* BlePeripheral.swift */,
+			);
+			path = Ble;
 			sourceTree = "<group>";
 		};
 		CEC2A0A627FCA049009A5144 /* Extensions */ = {
@@ -324,9 +338,9 @@
 			files = (
 				CE6001EB280F245B00D1DD03 /* ServerConnectView.swift in Sources */,
 				CE66C03D280F403F00ED786B /* ServerConfiguration.swift in Sources */,
+				CEB4BF4E281B15C0009BB1F2 /* CBUUIDs.swift in Sources */,
 				CE0ECE26281174DC00ACC3CC /* ControllerView.swift in Sources */,
 				CEAF439A27FC95B100C21F5B /* SplashView.swift in Sources */,
-				CEA4D4D128192AFC00FF0AE9 /* BleDelagate.swift in Sources */,
 				CEAF439C27FC95D200C21F5B /* DashboardView.swift in Sources */,
 				CEAF43A027FC96F700C21F5B /* NavView.swift in Sources */,
 				CEB7FF802806B88200307F04 /* MapView.swift in Sources */,
@@ -334,7 +348,9 @@
 				CEE7F52B27F4480900913F7F /* MobileApp.swift in Sources */,
 				CEE7F52D27F4480900913F7F /* ContentView.swift in Sources */,
 				D36B458D28048CA000E4310A /* GalleryView.swift in Sources */,
+				CEB4BF50281B16F3009BB1F2 /* BlePeripheral.swift in Sources */,
 				D36B4591280845CB00E4310A /* ApiModel.swift in Sources */,
+				CEC53A26281AE09C00352615 /* BleManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,8 +509,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Mobile/Preview Content\"";
+				DEVELOPMENT_TEAM = SKPSCYC9U7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We use Bluetooth to connect to the mower hardware device.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We use Bluetooth to connect to the mower hardware device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -522,8 +541,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Mobile/Preview Content\"";
+				DEVELOPMENT_TEAM = SKPSCYC9U7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We use Bluetooth to connect to the mower hardware device.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We use Bluetooth to connect to the mower hardware device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

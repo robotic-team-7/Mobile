@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NavView: View {
     @EnvironmentObject private var serverConfiguration: ServerConfiguration
+    // private let btService = SimpleBluetoothIO()
     // Applying navigation control theme
     init() {
         // Setting tabbar appearance
@@ -36,6 +37,7 @@ struct NavView: View {
                         Image(systemName: "house.fill")
                         Text("Dashboard")
                     }
+                // ControllerView(btService)
                 ControllerView()
                     .tabItem {
                         Image(systemName: "gamecontroller.fill")

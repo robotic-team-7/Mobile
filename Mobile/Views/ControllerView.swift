@@ -8,26 +8,79 @@
 import SwiftUI
 
 struct ControllerView: View {
-    @StateObject var bleDelegate = BleDelegate()
+    @ObservedObject var bleManager = BleManager()
+    @State private var deviceSelected = false
+    init() {
+        UITableView.appearance().backgroundColor = .clear // tableview background
+        UITableViewCell.appearance().backgroundColor = .clear // cell background
+    }
     var body: some View {
         ZStack {
             Color.scheme.bg
                 .ignoresSafeArea()
-            if bleDelegate.connected && bleDelegate.loaded {
+            if bleManager.isDisconnected {
+                VStack {
+                    List(bleManager.peripherals) { peripheral in Button(action: {deviceSelected = true; bleManager.connectToPeripheral(peripheral: peripheral.object)}){
+                        HStack {
+                            Text(peripheral.name)
+                            Spacer()
+                            Text(String(peripheral.rssi))
+                        }
+                    }.listRowBackground(Color.scheme.darkBg)}
+                    Spacer()
+                    Text("Status")
+                    if bleManager.isSwitchedOn {
+                        Text("Bluetooth is switched on")
+                            .foregroundColor(.green)
+                    }
+                    else {
+                        Text("Bluetooth is switched off")
+                            .foregroundColor(.red)
+                    }
+                    HStack {
+                        Button(action: {
+                            bleManager.startScanning()
+                        }) {
+                            Text("Scan")
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 48)
+                        }
+                        Button(action: {
+                            bleManager.disconnectPeripheral()
+                        }) {
+                            Text("Disconnect")
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 48)
+                        }.disabled(bleManager.isDisconnected == true)
+                    }
+                }.padding()
+            }
+            else {
                 VStack() {
                     Spacer()
                     HStack {
                         Button(action: {
+                            bleManager.writeOutgoingValue(data: "SD")
                         }) {
-                            Image(systemName: "camera.fill")
+                            Image(systemName: "tortoise.fill")
                                 .font(.largeTitle)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 48)
                         }
                         .buttonStyle(.bordered)
                         Button(action: {
+                            bleManager.writeOutgoingValue(data: "MS")
                         }) {
                             Image(systemName: "power")
+                                .font(.largeTitle)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 48)
+                        }
+                        .buttonStyle(.bordered)
+                        Button(action: {
+                            bleManager.writeOutgoingValue(data: "SI")
+                        }) {
+                            Image(systemName: "hare.fill")
                                 .font(.largeTitle)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 48)
@@ -38,7 +91,7 @@ struct ControllerView: View {
                     HStack {
                         Spacer()
                         Button(action: {
-                            bleDelegate.sendCommand(command: 3)
+                            bleManager.writeOutgoingValue(data: "MF")
                         }) {
                             Image(systemName: "arrowtriangle.up.fill")
                                 .font(.largeTitle)
@@ -49,12 +102,11 @@ struct ControllerView: View {
                     }
                     HStack(alignment:.center) {
                         Button(action: {
-                            bleDelegate.sendCommand(command: 1)
+                            bleManager.writeOutgoingValue(data: "ML")
                         }) {
                             Image(systemName: "arrowtriangle.left.fill")
                                 .font(.largeTitle)
                                 .frame(width: 48, height: 48)
-
                         }
                         .buttonStyle(.bordered)
                         //Spacer()
@@ -63,12 +115,12 @@ struct ControllerView: View {
                             Image(systemName: "")
                                 .font(.largeTitle)
                                 .frame(width: 48, height: 48)
-
+                            
                         }
                         .buttonStyle(.bordered)
                         .hidden()
                         Button(action: {
-                            bleDelegate.sendCommand(command: 4)
+                            bleManager.writeOutgoingValue(data: "MR")
                         }) {
                             Image(systemName: "arrowtriangle.right.fill")
                                 .font(.largeTitle)
@@ -79,7 +131,7 @@ struct ControllerView: View {
                     HStack {
                         Spacer()
                         Button(action: {
-                            bleDelegate.sendCommand(command: 2)
+                            bleManager.writeOutgoingValue(data: "MB")
                         }) {
                             Image(systemName: "arrowtriangle.down.fill")
                                 .font(.largeTitle)
@@ -92,14 +144,9 @@ struct ControllerView: View {
                     Spacer()
                 }.padding()
             }
-            else {
-                VStack {
-                    Text(bleDelegate.connected ? "Loading device data..." : "Searching for device...")
-                    ProgressView()
-                }.padding()
-            }
-            
         }
+        .navigationTitle("Bluetooth Remote")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

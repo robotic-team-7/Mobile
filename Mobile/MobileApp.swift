@@ -10,8 +10,6 @@ import SwiftUI
 @main
 struct MobileApp: App {
     
-    @StateObject var bleDelegate = BleDelegate()
-    
     var body: some Scene {
         WindowGroup {
             // Starting with splash screen.
