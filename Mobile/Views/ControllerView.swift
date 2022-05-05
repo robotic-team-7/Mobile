@@ -21,13 +21,18 @@ struct ControllerView: View {
                     .ignoresSafeArea()
                 if bleManager.isDisconnected {
                     VStack {
-                        List(bleManager.peripherals) { peripheral in Button(action: {deviceSelected = true; bleManager.connectToPeripheral(peripheral: peripheral.object)}){
-                            HStack {
-                                Text(peripheral.name)
-                                Spacer()
-                                Text(String(peripheral.rssi))
-                            }
-                        }.listRowBackground(Color.scheme.darkBg)}
+                        List(bleManager.peripherals) { peripheral in Button(action: {
+                            deviceSelected = true
+                            bleManager.connectToPeripheral(peripheral: peripheral.object)
+                            // bleManager.writeOutgoingValue(data: "MT")
+                        })
+                            {
+                                HStack {
+                                    Text(peripheral.name)
+                                    Spacer()
+                                    Text(String(peripheral.rssi))
+                                }
+                            }.listRowBackground(Color.scheme.darkBg)}
                         Spacer()
                         Text("Status")
                         if bleManager.isSwitchedOn {
@@ -70,7 +75,8 @@ struct ControllerView: View {
                             }
                             .buttonStyle(.bordered)
                             Button(action: {
-                                bleManager.writeOutgoingValue(data: "MS")
+                                // bleManager.writeOutgoingValue(data: "MT")
+                                bleManager.toggleMowerMode()
                             }) {
                                 Image(systemName: "power")
                                     .font(.largeTitle)
@@ -110,16 +116,14 @@ struct ControllerView: View {
                                     .frame(width: 48, height: 48)
                             }
                             .buttonStyle(.bordered)
-                            //Spacer()
                             Button(action: {
+                                bleManager.writeOutgoingValue(data: "MS")
                             }) {
-                                Image(systemName: "")
+                                Image(systemName: "nosign")
                                     .font(.largeTitle)
                                     .frame(width: 48, height: 48)
-                                
                             }
                             .buttonStyle(.bordered)
-                            .hidden()
                             Button(action: {
                                 bleManager.writeOutgoingValue(data: "MR")
                             }) {

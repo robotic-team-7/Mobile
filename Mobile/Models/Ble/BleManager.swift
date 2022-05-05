@@ -57,6 +57,12 @@ class BleManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         }
     }
     
+    func toggleMowerMode() {
+        if !isDisconnected {
+            writeOutgoingValue(data: "MT")
+        }
+    }
+    
     func connectToPeripheral(peripheral: CBPeripheral) {
         self.myPeripheral = peripheral
         self.myPeripheral.delegate = self
@@ -96,6 +102,7 @@ class BleManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         isDisconnected = false
         self.myPeripheral.discoverServices([CBUUIDs.BLEService_UUID])
+        toggleMowerMode()
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
