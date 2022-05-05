@@ -10,6 +10,7 @@ import SwiftUI
 struct MapView: View {
     @State private var lines = [Line]()
     @State private var mower = CGPoint()
+    @State private var obstacles = [CGPoint]()
     @State private var undoLines = [Line]()
     var body: some View {
         NavigationView {
@@ -27,13 +28,12 @@ struct MapView: View {
                     .gesture(DragGesture(minimumDistance: 0).onChanged({ value in
                         print(value.location)
                         mower = value.location
+                        obstacles.append(value.location)
                         if lines.isEmpty {
                             lines.append(Line(points: [CGPoint](), linewidth: 5, dash: 5, color: .black))
                         }
                         let index = lines.count - 1
                         lines[index].points.append(value.location)
-                        
-                        
 //                        if value.translation.width + value.translation.height == 0 {
 //                            // length of line is zero -> new line
 //                            lines.append(Line(points: [CGPoint](), linewidth: 1, color: .black))
@@ -52,6 +52,9 @@ struct MapView: View {
                         .position(mower)
                         .font(.title2)
                         .padding()
+                    ForEach(obstacles.indices, id: \.self) { index in
+                        Image(systemName: "exclamationmark.triangle.fill").position(obstacles[index])/// use each element in the array
+                    }
                         
                 }
                 .navigationTitle("Map")
