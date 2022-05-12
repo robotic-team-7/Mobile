@@ -9,30 +9,29 @@ import SwiftUI
 
 struct ServerConnectView: View {
     let screenWidth = UIScreen.main.bounds.size.width
-    @EnvironmentObject private var serverConfiguration: ServerConfiguration
+    @EnvironmentObject private var appSettings: AppSettings
     var body: some View {
         ZStack {
             Color.scheme.bg
-            if (serverConfiguration.isConnected) {
-                NavView()
+            if (appSettings.isSignedIn) {
+                MowerConnectView()
             }
             else {
                 VStack {
                     Text("Enter Mower Address")
                         .font(.largeTitle)
-                    TextField("", text: $serverConfiguration.serverAddress)
+                    //TextField("", text: $appSettings.serverAddress)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .colorScheme(.light)
                         .padding()
                     Button(action: {
-                        serverConfiguration.isConnected = true
+                        appSettings.isSignedIn = true
                     }) {
                         Text("Connect")
                             .frame(maxWidth: screenWidth * 0.5)
                             .frame(height: 48)
                     }
                     .buttonStyle(.bordered)
-                    .disabled(false)
                 }.padding()
             }
         }

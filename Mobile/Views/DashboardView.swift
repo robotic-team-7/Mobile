@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @EnvironmentObject private var serverConfiguration: ServerConfiguration
+    @EnvironmentObject private var appSettings: AppSettings
     let screenWidth = UIScreen.main.bounds.size.width
     var body: some View {
         NavigationView {
@@ -40,9 +40,9 @@ struct DashboardView: View {
                             DashItem(title: "Time running", text: "50 minutes", image: nil, progress: nil)
                         }.fixedSize(horizontal: false, vertical: true)
                     }
-                    Text("Connected to: " + serverConfiguration.serverAddress)
+                    // Text("Connected to backend")
                     Button(action: {
-                        serverConfiguration.isConnected = false
+                        appSettings.isSessionSelected = false
                     }) {
                         Text("Disconnect")
                             .frame(maxWidth: screenWidth * 0.5)

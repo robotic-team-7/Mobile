@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NavView: View {
-    @EnvironmentObject private var serverConfiguration: ServerConfiguration
+    @EnvironmentObject private var appSettings: AppSettings
     // private let btService = SimpleBluetoothIO()
     // Applying navigation control theme
     init() {
@@ -27,7 +27,7 @@ struct NavView: View {
     }
 
     var body: some View {
-        if (!serverConfiguration.isConnected) {
+        if (!appSettings.isSessionSelected) {
             ServerConnectView()
         }
         else {
