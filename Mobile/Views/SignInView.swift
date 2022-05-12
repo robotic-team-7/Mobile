@@ -62,6 +62,7 @@ struct SignInView: View {
                     .padding(.top, 20)
                     Spacer()
                     Button(action: {
+                        API().signIn(username: username, password: password)
                         print("Attempt login")
                     }) {
                         Text("LOGIN")

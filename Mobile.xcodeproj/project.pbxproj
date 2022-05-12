@@ -72,6 +72,7 @@
 		D36B458C28048CA000E4310A /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
 		D36B4590280845CB00E4310A /* ApiModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiModel.swift; sourceTree = "<group>"; };
 		D3EED7EF281AC582002D8E1F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		D3EED7F1281ADE31002D8E1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +173,7 @@
 		CEE7F52927F4480900913F7F /* Mobile */ = {
 			isa = PBXGroup;
 			children = (
+				D3EED7F1281ADE31002D8E1F /* Info.plist */,
 				CEC2A0A627FCA049009A5144 /* Extensions */,
 				CEAF439827FC957500C21F5B /* ViewModels */,
 				CEAF439727FC956B00C21F5B /* Models */,
@@ -353,11 +355,8 @@
 				D36B458D28048CA000E4310A /* GalleryView.swift in Sources */,
 				CEB4BF50281B16F3009BB1F2 /* BlePeripheral.swift in Sources */,
 				D36B4591280845CB00E4310A /* ApiModel.swift in Sources */,
-<<<<<<< HEAD
 				CEC53A26281AE09C00352615 /* BleManager.swift in Sources */,
-=======
 				D3EED7F0281AC582002D8E1F /* SignInView.swift in Sources */,
->>>>>>> feat(signinview): Created a sign in view
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,13 +518,8 @@
 				DEVELOPMENT_TEAM = SKPSCYC9U7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-<<<<<<< HEAD
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We use Bluetooth to connect to the mower hardware device.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We use Bluetooth to connect to the mower hardware device.";
-=======
-				INFOPLIST_FILE = Mobile/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
->>>>>>> feat(signinview): Created a sign in view
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -556,13 +550,8 @@
 				DEVELOPMENT_TEAM = SKPSCYC9U7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-<<<<<<< HEAD
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We use Bluetooth to connect to the mower hardware device.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We use Bluetooth to connect to the mower hardware device.";
-=======
-				INFOPLIST_FILE = Mobile/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
->>>>>>> feat(signinview): Created a sign in view
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
