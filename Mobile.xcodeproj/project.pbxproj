@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		CE0ECE26281174DC00ACC3CC /* ControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0ECE25281174DC00ACC3CC /* ControllerView.swift */; };
 		CE6001EB280F245B00D1DD03 /* ServerConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6001EA280F245B00D1DD03 /* ServerConnectView.swift */; };
-		CE66C03D280F403F00ED786B /* ServerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE66C03C280F403F00ED786B /* ServerConfiguration.swift */; };
+		CE66C03D280F403F00ED786B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE66C03C280F403F00ED786B /* AppSettings.swift */; };
 		CEAF439A27FC95B100C21F5B /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439927FC95B100C21F5B /* SplashView.swift */; };
 		CEAF439C27FC95D200C21F5B /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439B27FC95D200C21F5B /* DashboardView.swift */; };
 		CEAF43A027FC96F700C21F5B /* NavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439F27FC96F700C21F5B /* NavView.swift */; };
@@ -18,6 +18,8 @@
 		CEB7FF802806B88200307F04 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7FF7F2806B88200307F04 /* MapView.swift */; };
 		CEC2A0A827FCA05E009A5144 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC2A0A727FCA05E009A5144 /* Color.swift */; };
 		CEC53A26281AE09C00352615 /* BleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC53A25281AE09C00352615 /* BleManager.swift */; };
+		CED29C89282BB46E00E14244 /* MowerConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED29C88282BB46E00E14244 /* MowerConnectView.swift */; };
+		CED29C8C282BDB0900E14244 /* SessionConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED29C8B282BDB0900E14244 /* SessionConnectView.swift */; };
 		CEE7F52B27F4480900913F7F /* MobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F52A27F4480900913F7F /* MobileApp.swift */; };
 		CEE7F52D27F4480900913F7F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F52C27F4480900913F7F /* ContentView.swift */; };
 		CEE7F52F27F4480B00913F7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEE7F52E27F4480B00913F7F /* Assets.xcassets */; };
@@ -26,8 +28,8 @@
 		CEE7F54627F4480C00913F7F /* MobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F54527F4480C00913F7F /* MobileUITests.swift */; };
 		CEE7F54827F4480C00913F7F /* MobileUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F54727F4480C00913F7F /* MobileUITestsLaunchTests.swift */; };
 		D36B458D28048CA000E4310A /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36B458C28048CA000E4310A /* GalleryView.swift */; };
-		D36B4591280845CB00E4310A /* ApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36B4590280845CB00E4310A /* ApiModel.swift */; };
 		D3EED7F0281AC582002D8E1F /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EED7EF281AC582002D8E1F /* SignInView.swift */; };
+		D36B4591280845CB00E4310A /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36B4590280845CB00E4310A /* ApiManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +52,7 @@
 /* Begin PBXFileReference section */
 		CE0ECE25281174DC00ACC3CC /* ControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerView.swift; sourceTree = "<group>"; };
 		CE6001EA280F245B00D1DD03 /* ServerConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConnectView.swift; sourceTree = "<group>"; };
-		CE66C03C280F403F00ED786B /* ServerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfiguration.swift; sourceTree = "<group>"; };
+		CE66C03C280F403F00ED786B /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		CEAF439927FC95B100C21F5B /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		CEAF439B27FC95D200C21F5B /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		CEAF439F27FC96F700C21F5B /* NavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavView.swift; sourceTree = "<group>"; };
@@ -59,6 +61,9 @@
 		CEB7FF7F2806B88200307F04 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		CEC2A0A727FCA05E009A5144 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		CEC53A25281AE09C00352615 /* BleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleManager.swift; sourceTree = "<group>"; };
+		CED29C88282BB46E00E14244 /* MowerConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MowerConnectView.swift; sourceTree = "<group>"; };
+		CED29C8A282BBB1100E14244 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		CED29C8B282BDB0900E14244 /* SessionConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionConnectView.swift; sourceTree = "<group>"; };
 		CEE7F52727F4480900913F7F /* Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE7F52A27F4480900913F7F /* MobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileApp.swift; sourceTree = "<group>"; };
 		CEE7F52C27F4480900913F7F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -70,9 +75,8 @@
 		CEE7F54527F4480C00913F7F /* MobileUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileUITests.swift; sourceTree = "<group>"; };
 		CEE7F54727F4480C00913F7F /* MobileUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D36B458C28048CA000E4310A /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
-		D36B4590280845CB00E4310A /* ApiModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiModel.swift; sourceTree = "<group>"; };
 		D3EED7EF281AC582002D8E1F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
-		D3EED7F1281ADE31002D8E1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D36B4590280845CB00E4310A /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,8 @@
 				D36B458C28048CA000E4310A /* GalleryView.swift */,
 				CE0ECE25281174DC00ACC3CC /* ControllerView.swift */,
 				D3EED7EF281AC582002D8E1F /* SignInView.swift */,
+				CED29C88282BB46E00E14244 /* MowerConnectView.swift */,
+				CED29C8B282BDB0900E14244 /* SessionConnectView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -119,8 +125,8 @@
 			isa = PBXGroup;
 			children = (
 				CEB4BF4C281B15A1009BB1F2 /* Ble */,
-				CE66C03C280F403F00ED786B /* ServerConfiguration.swift */,
-				D36B4590280845CB00E4310A /* ApiModel.swift */,
+				CE66C03C280F403F00ED786B /* AppSettings.swift */,
+				D36B4590280845CB00E4310A /* ApiManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -173,7 +179,7 @@
 		CEE7F52927F4480900913F7F /* Mobile */ = {
 			isa = PBXGroup;
 			children = (
-				D3EED7F1281ADE31002D8E1F /* Info.plist */,
+				CED29C8A282BBB1100E14244 /* Info.plist */,
 				CEC2A0A627FCA049009A5144 /* Extensions */,
 				CEAF439827FC957500C21F5B /* ViewModels */,
 				CEAF439727FC956B00C21F5B /* Models */,
@@ -341,20 +347,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CED29C89282BB46E00E14244 /* MowerConnectView.swift in Sources */,
 				CE6001EB280F245B00D1DD03 /* ServerConnectView.swift in Sources */,
-				CE66C03D280F403F00ED786B /* ServerConfiguration.swift in Sources */,
+				CE66C03D280F403F00ED786B /* AppSettings.swift in Sources */,
 				CEB4BF4E281B15C0009BB1F2 /* CBUUIDs.swift in Sources */,
 				CE0ECE26281174DC00ACC3CC /* ControllerView.swift in Sources */,
 				CEAF439A27FC95B100C21F5B /* SplashView.swift in Sources */,
 				CEAF439C27FC95D200C21F5B /* DashboardView.swift in Sources */,
 				CEAF43A027FC96F700C21F5B /* NavView.swift in Sources */,
 				CEB7FF802806B88200307F04 /* MapView.swift in Sources */,
+				CED29C8C282BDB0900E14244 /* SessionConnectView.swift in Sources */,
 				CEC2A0A827FCA05E009A5144 /* Color.swift in Sources */,
 				CEE7F52B27F4480900913F7F /* MobileApp.swift in Sources */,
 				CEE7F52D27F4480900913F7F /* ContentView.swift in Sources */,
 				D36B458D28048CA000E4310A /* GalleryView.swift in Sources */,
 				CEB4BF50281B16F3009BB1F2 /* BlePeripheral.swift in Sources */,
-				D36B4591280845CB00E4310A /* ApiModel.swift in Sources */,
+				D36B4591280845CB00E4310A /* ApiManager.swift in Sources */,
 				CEC53A26281AE09C00352615 /* BleManager.swift in Sources */,
 				D3EED7F0281AC582002D8E1F /* SignInView.swift in Sources */,
 			);
@@ -518,6 +526,7 @@
 				DEVELOPMENT_TEAM = SKPSCYC9U7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Mobile/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We use Bluetooth to connect to the mower hardware device.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We use Bluetooth to connect to the mower hardware device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -550,6 +559,7 @@
 				DEVELOPMENT_TEAM = SKPSCYC9U7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Mobile/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We use Bluetooth to connect to the mower hardware device.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We use Bluetooth to connect to the mower hardware device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
