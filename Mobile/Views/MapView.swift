@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MapView: View {
+    // @ObservedObject var apiManager = ApiManager()
     @State private var lines = [Line]()
     @State private var mower = CGPoint()
     @State private var obstacles = [CGPoint]()
@@ -52,10 +53,12 @@ struct MapView: View {
                         .position(mower)
                         .font(.title2)
                         .padding()
+                    //ForEach(api.obstacles.indices, id: \.self) { index in
+                    //    Image(systemName: "exclamationmark.triangle.fill").position(obstacles[index])/// use each element in the array
+                    //}
                     ForEach(obstacles.indices, id: \.self) { index in
                         Image(systemName: "exclamationmark.triangle.fill").position(obstacles[index])/// use each element in the array
                     }
-                        
                 }
                 .navigationTitle("Map")
                 .navigationBarTitleDisplayMode(.inline)

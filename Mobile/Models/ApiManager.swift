@@ -9,12 +9,16 @@ import Foundation
 import Combine
 import SwiftUI
 
-class API: NSObject, ObservableObject {
+class ApiManager: ObservableObject {
     @Published var mowers = [Mower]()
     @Published var mowingSessions = [MowingSession]()
     @Published var obstacles = [Obstacle]()
     @Published var serverAddress = "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080"
-    
+    private let authToken = ""
+    init() {
+        getMowers()
+        getMowingSessions()
+    }
     func getMower() {
         // Fetches mower
         guard let url = URL(string: "http://212.25.136.76:8080/mobile/mowerPositions/1") else { return }
@@ -26,13 +30,11 @@ class API: NSObject, ObservableObject {
             }
         }.resume()
     }
-    
-    
+
     func getMowers() {
         guard let url = URL(string:  "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080/mobile/user/mowers" ) else { return }
         var request = URLRequest(url: url)
-        // request.setValue("Bearer \(apikey)", forHTTPHeaderField: "Authorization")
-        request.setValue("Bearer xxx", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         URLSession.shared.dataTask(with: request) { ( data, response, error ) in
             guard let data = data, error == nil else { return }
@@ -45,12 +47,11 @@ class API: NSObject, ObservableObject {
             }
         }.resume()
     }
-    
+
     func getMowingSessions() {
         guard let url = URL(string:  "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080/mobile/mowingSessions/mobile" ) else { return }
         var request = URLRequest(url: url)
-        // request.setValue("Bearer \(apikey)", forHTTPHeaderField: "Authorization")
-        request.setValue("Bearer xxx", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         URLSession.shared.dataTask(with: request) { ( data, response, error ) in
             guard let data = data, error == nil else { return }
@@ -74,9 +75,9 @@ struct ObstaclePosition: Decodable, Equatable {
 }
 
 struct Mower: Decodable, Identifiable {
-    let mowerID, userID, status: String
+    var mowerId, userId, status: String
     var id: String {
-        mowerID
+        mowerId
     }
 }
 
@@ -87,7 +88,7 @@ struct Obstacle: Decodable, Identifiable {
     var obstaclePosition: ObstaclePosition
     var imagePath: String
     var mowingSessionId: Int
-    
+
     var id: Int {
         obstacleId
     }
