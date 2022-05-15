@@ -11,8 +11,7 @@ class AppSettings: ObservableObject {
     @Published var authToken: String?
     @Published var selectedMowerId: String?
     @Published var selectedSessionId: Int?
-    @Published var isMowerSelected: Bool
-    @Published var isSessionSelected: Bool
+    @Published var autoMode: Bool
     @Published var isSignedIn: Bool
 
     init() {
@@ -20,8 +19,7 @@ class AppSettings: ObservableObject {
         self.authToken = nil
         self.selectedMowerId = nil
         self.selectedSessionId = nil
-        self.isMowerSelected = false
-        self.isSessionSelected = false
         self.isSignedIn = false
+        self.autoMode = false
     }
 }

@@ -9,47 +9,73 @@ import SwiftUI
 
 struct DashboardView: View {
     @EnvironmentObject private var appSettings: AppSettings
+    @EnvironmentObject private var apiManager: ApiManager
     let screenWidth = UIScreen.main.bounds.size.width
     var body: some View {
         NavigationView {
             ZStack {
                 Color.scheme.bg
                 VStack {
-                    ScrollView {
+                    if (appSettings.selectedSessionId != nil) {
                         HStack {
-                            DashItem(title: "Status", text: "Running", image: "togglepower", progress: nil)
-                            DashItem(title: "Battery", text: "20%", image: "bolt.square.fill",  progress: 20)
-                        }.fixedSize(horizontal: false, vertical: true)
-                        HStack {
-                            DashItem(title: "Obstacles", text: "25 avoided", image: nil,  progress: nil)
-                            DashItem(title: "Collissions", text: "3 detected", image: nil, progress: nil)
-                        }.fixedSize(horizontal: false, vertical: true)
-                        HStack {
-                            VStack (alignment: .leading) {
-                                Text("Power")
-                                    .font(.title3.bold())
-                                Spacer()
-                                Toggle(isOn: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Is On@*/.constant(true)/*@END_MENU_TOKEN@*/){}
-                                    .labelsHidden()
-                                    .frame(maxWidth: .infinity, alignment: .center)
+                            DashItem(title: "Status", text: "\(apiManager.mower.description)", image: "togglepower", progress: nil)
+                            DashItem(title: "Battery", text: "\(Double(apiManager.mower.capacity) / 100)", image: "bolt.square.fill",  progress: Double(apiManager.mower.capacity) / 100)
+                        }
+                        .fixedSize(horizontal: false, vertical: true)
+                        // HStack {
+                        //    DashItem(title: "Obstacles", text: "25 detected", image: nil,  progress: nil)
+                        //    DashItem(title: "Collissions", text: "3 detected", image: nil, progress: nil)
+                        //}.fixedSize(horizontal: false, vertical: true)
+                    }
+                    HStack {
+                        VStack (alignment: .leading) {
+                            Text("Auto")
+                                .font(.title3.bold())
+                            Spacer()
+                            Toggle(isOn: $appSettings.autoMode ){}
+                                .labelsHidden()
+                                .frame(maxWidth: .infinity, alignment: .center)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                        .padding(10)
+                        .background(Color.scheme.darkBg)
+                        .cornerRadius(/*@START_MENU_TOKEN@*/5.0/*@END_MENU_TOKEN@*/)
+                        DashItem(title: "Time running", text: "50 minutes", image: nil, progress: nil)
+                    }.fixedSize(horizontal: false, vertical: true)
+                    Spacer()
+                    if (appSettings.selectedSessionId != nil) {
+                        Button(action: {
+                            appSettings.selectedSessionId = nil
+                        }) {
+                            Text("Disconnect from session")
+                                .frame(maxWidth: screenWidth * 0.5)
+                                .frame(height: 48)
+                        }
+                        .buttonStyle(.bordered)
+                        .disabled(false)
+                    }
+                    else {
+                        VStack {
+                            Text("Mowing Sessions")
+                            List(apiManager.mowingSessions) { mowingSession in
+                                Button(action: {
+                                    appSettings.selectedSessionId = mowingSession.mowingSessionId
+                                    apiManager.getMowingSession(sessionId: mowingSession.mowingSessionId)
+                                }){
+                                    Text(mowingSession.createdAt)
+                                }.listRowBackground(Color.scheme.darkBg)}
+                            Spacer()
+                            HStack {
+                                Button(action: {
+                                    apiManager.getMowingSessions(mowerId: appSettings.selectedMowerId!)
+                                }) {
+                                    Text("Refresh")
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 24)
+                                }.buttonStyle(.bordered)
                             }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                            .padding(10)
-                            .background(Color.scheme.darkBg)
-                            .cornerRadius(/*@START_MENU_TOKEN@*/5.0/*@END_MENU_TOKEN@*/)
-                            DashItem(title: "Time running", text: "50 minutes", image: nil, progress: nil)
-                        }.fixedSize(horizontal: false, vertical: true)
+                        }
                     }
-                    // Text("Connected to backend")
-                    Button(action: {
-                        appSettings.isSessionSelected = false
-                    }) {
-                        Text("Disconnect")
-                            .frame(maxWidth: screenWidth * 0.5)
-                            .frame(height: 48)
-                    }
-                    .buttonStyle(.bordered)
-                    .disabled(false)
                 }.padding(10)
             }
             .navigationTitle("Dashboard")
@@ -90,6 +116,7 @@ struct DashboardView: View {
         .background(Color.scheme.darkBg)
         .cornerRadius(/*@START_MENU_TOKEN@*/5.0/*@END_MENU_TOKEN@*/)
     }
+    
     struct DashboardView_Previews: PreviewProvider {
         static var previews: some View {
             DashboardView()

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct NavView: View {
     @EnvironmentObject private var appSettings: AppSettings
-    // private let btService = SimpleBluetoothIO()
     // Applying navigation control theme
     init() {
         // Setting tabbar appearance
@@ -27,8 +26,8 @@ struct NavView: View {
     }
 
     var body: some View {
-        if (!appSettings.isSessionSelected) {
-            ServerConnectView()
+        if (appSettings.selectedMowerId == nil) {
+            MowerConnectView()
         }
         else {
             TabView {
@@ -37,13 +36,11 @@ struct NavView: View {
                         Image(systemName: "house.fill")
                         Text("Dashboard")
                     }
-                // ControllerView(btService)
                 ControllerView()
                     .tabItem {
                         Image(systemName: "gamecontroller.fill")
                         Text("Remote")
                     }
-                // Replace with actual views later on
                 MapView()
                     .tabItem {
                         Image(systemName: "map.fill")
