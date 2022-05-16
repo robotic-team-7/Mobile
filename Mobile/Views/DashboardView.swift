@@ -16,16 +16,18 @@ struct DashboardView: View {
             ZStack {
                 Color.scheme.bg
                 VStack {
-                    if (appSettings.selectedSessionId != nil) {
+                    // Status items for mower
+                    HStack {
+                        DashItem(title: "Status", text: "\(apiManager.mower.description)", image: "togglepower", progress: nil)
+                        DashItem(title: "Battery", text: "\(Double(apiManager.mower.capacity) / 100)", image: "bolt.square.fill",  progress: Double(apiManager.mower.capacity) / 100)
+                    }
+                    .fixedSize(horizontal: false, vertical: true)
+                    // Status items for mowing session
+                    if (!apiManager.mowingSession.isEmpty) {
                         HStack {
-                            DashItem(title: "Status", text: "\(apiManager.mower.description)", image: "togglepower", progress: nil)
-                            DashItem(title: "Battery", text: "\(Double(apiManager.mower.capacity) / 100)", image: "bolt.square.fill",  progress: Double(apiManager.mower.capacity) / 100)
-                        }
-                        .fixedSize(horizontal: false, vertical: true)
-                        // HStack {
-                        //    DashItem(title: "Obstacles", text: "25 detected", image: nil,  progress: nil)
-                        //    DashItem(title: "Collissions", text: "3 detected", image: nil, progress: nil)
-                        //}.fixedSize(horizontal: false, vertical: true)
+                            DashItem(title: "Obstacles", text: "\(apiManager.mowingSession.first!.Obstacles.count) detected", image: nil,  progress: nil)
+                            // DashItem(title: "Time running", text: "3 detected", image: nil, progress: nil)
+                        }.fixedSize(horizontal: false, vertical: true)
                     }
                     HStack {
                         VStack (alignment: .leading) {
@@ -60,9 +62,9 @@ struct DashboardView: View {
                             List(apiManager.mowingSessions) { mowingSession in
                                 Button(action: {
                                     appSettings.selectedSessionId = mowingSession.mowingSessionId
-                                    apiManager.getMowingSession(sessionId: mowingSession.mowingSessionId)
+                                    apiManager.getMowingSession(sessionId: mowingSession.mowingSessionId, appSettings: self.appSettings)
                                 }){
-                                    Text(mowingSession.createdAt)
+                                    Text("Id: \(mowingSession.mowingSessionId) Date: \(mowingSession.createdAt)")
                                 }.listRowBackground(Color.scheme.darkBg)}
                             Spacer()
                             HStack {

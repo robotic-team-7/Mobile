@@ -26,29 +26,30 @@ struct MapView: View {
                                            with: .color(line.color),
                                            style: StrokeStyle(lineWidth: line.linewidth, dash: [line.dash]))
                         }
-                    }.onAppear {
-                        mowerPath.append(Line(points: [CGPoint](), linewidth: 5, dash: 5, color: .black))
                     }
                     .onReceive(timer) { input in
-                        apiManager.getMowingSession(sessionId: appSettings.selectedSessionId!)
-                        for mowerPosition in apiManager.mowingSession[0].mowerPositions.points {
+                        apiManager.getMowingSession(sessionId: appSettings.selectedSessionId!, appSettings: self.appSettings)
+                        mowerPath = [Line(points: [CGPoint](), linewidth: 5, dash: 5, color: .black)]
+                        for mowerPosition in apiManager.mowingSession.first!.mowerPositions.points {
                             mowerPath[0].points.append(CGPoint(x: mowerPosition[0], y: mowerPosition[1]))
-                        }
-                        mowerPosition = CGPoint(x: apiManager.mowingSession[0].mowerPositions.points.last!.first ?? 0, y: apiManager.mowingSession[0].mowerPositions.points.last!.last ?? 0)
-                        for obstacle in apiManager.mowingSession[0].Obstacles {
-                            print(obstacle)
                         }
                     }
                     .background(Image("grasslight-big").resizable().aspectRatio(contentMode: .fill))
                     .cornerRadius(25)
                     .overlay(RoundedRectangle(cornerRadius: 25).stroke(Color.white, lineWidth: 2))
                     .padding()
-                    Image(systemName: "mappin.and.ellipse")
-                        .position(mowerPosition)
-                        .font(.title2)
-                        .padding()
-                    ForEach(obstacles.indices, id: \.self) { index in
-                        Image(systemName: "exclamationmark.triangle.fill").position(obstacles[index])/// use each element in the array
+                    if (!apiManager.mowingSession.isEmpty){
+                        ForEach(apiManager.mowingSession.first!.Obstacles) { Obstacle in
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .position(CGPoint(x: Obstacle.obstaclePosition[0], y: Obstacle.obstaclePosition[1]))
+                                .foregroundColor(.yellow)
+                                .font(.largeTitle)
+                        }
+                        if (!apiManager.mowingSession.first!.mowerPositions.points.isEmpty){
+                            Image(systemName: "mappin.and.ellipse")
+                                .position(CGPoint(x: apiManager.mowingSession.first!.mowerPositions.points.last!.first!, y: apiManager.mowingSession.first!.mowerPositions.points.last!.last!))
+                                .font(.largeTitle)
+                        }
                     }
                 }
                 .navigationTitle("Map")
