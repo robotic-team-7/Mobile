@@ -14,7 +14,7 @@ struct SplashView: View {
                 .ignoresSafeArea()
             VStack {
                 if self.isActive {
-                    MowerConnectView()
+                    NavView()
                 } else {
                     Text("Lawnmower 9000")
                         .font(Font.largeTitle)

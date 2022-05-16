@@ -46,7 +46,6 @@ struct NavView: View {
                         Image(systemName: "map.fill")
                         Text("Map")
                     }
-
                 GalleryView()
                     .tabItem {
                         Image(systemName:"photo.fill")
