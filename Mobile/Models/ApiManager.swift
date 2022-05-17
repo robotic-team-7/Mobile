@@ -17,13 +17,12 @@ class ApiManager: ObservableObject {
     @Published var mowingSession: [MowingSession] = []
     @Published var obstacles: [Obstacle] = []
     @Published var serverAddress = "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080"
-    private let authToken = "eyJraWQiOiJweW1jVm9UdmMxOVI4eTlmbnR2OFgwSkJOQ1wvZ1dyOXhoa3JGQXM0bUJ0RT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhNDA0ZGIwNi01NGE3LTQ3MTUtOWE2ZS05OWNmNmUxY2NmNGYiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAuZXUtbm9ydGgtMS5hbWF6b25hd3MuY29tXC9ldS1ub3J0aC0xXzBVZDMwTEl3eiIsImNsaWVudF9pZCI6IjE5aW5yc2NiaGM0aGdycHM3ajMxbGo3Z2M1Iiwib3JpZ2luX2p0aSI6ImU4YjUxMzQ5LTY1OTEtNDVlOC05ZTZjLTM5MjViZTNmMzI1MyIsImV2ZW50X2lkIjoiODI3M2Q3MDctMzgzOS00NWFhLWFhMDgtZGRlZTY0YWQwNzliIiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJhd3MuY29nbml0by5zaWduaW4udXNlci5hZG1pbiIsImF1dGhfdGltZSI6MTY1Mjc3NzAyMywiZXhwIjoxNjUyODYzNDIzLCJpYXQiOjE2NTI3NzcwMjMsImp0aSI6IjA3YTk5MDk4LTliMjItNGNhMS04ZTJhLTRjZDU2MjI0MmI4MCIsInVzZXJuYW1lIjoiYW5uaWVtaWtlbiJ9.Pu8N_zROWnmj7lLPsQtuhEJfzFLIHho0AvPvAXlyYSWrv189bePJuAmsG9AgnzdISKsxw9DtUeqr0xONwa6TV1ZDgdxxXIxEpVka5_-pkiHyVBEOnCY_Xm6HIevE2PX3geaVzSoeBLd-UeNZHkDj4bmdxA4gQwNm_ssoxkwqeTEFD00EOaKRdhCJSWZOd-gkjBxIWFsZcxVHn3s3QNnc7W0yQMiIx9hiE_cn8sUoZv_q4SGQ1kQpNuDvPhKdugDcMosEhppLx07MwTxh4MqGaIGNx-J25bwOvl18Oo2WJhqnOBNBXz5-hh6PjwIiWLeJVDzKc6J19ywPG16vHZb9yA"
     private let keychain = KeychainWrapper.standard
 
     func getMower(mowerId: String, appSettings: AppSettings) {
         guard let url = URL(string:  "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080/mobile/\(mowerId)" ) else { return }
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(keychain.string(forKey: "accessToken") ?? "")", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         URLSession.shared.dataTask(with: request) { ( data, response, error ) in
             guard let response = response as? HTTPURLResponse else { return }
@@ -57,11 +56,10 @@ class ApiManager: ObservableObject {
             }
         }.resume()
     }
-
-    func getMowers(appSettings: AppSettings) {
+    func checkAuth(appSettings: AppSettings) {
         guard let url = URL(string:  "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080/mobile/user/mowers" ) else { return }
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(keychain.string(forKey: "accessToken") ?? "")", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         URLSession.shared.dataTask(with: request) { ( data, response, error ) in
             guard let response = response as? HTTPURLResponse else { return }
@@ -71,12 +69,42 @@ class ApiManager: ObservableObject {
                 DispatchQueue.main.async {
                     do {
                         self.mowers = try JSONDecoder().decode([Mower].self, from: data)
+                        appSettings.isSignedIn = true
                     } catch {
                         print(error)
                     }
                 }
             case 401:
                 print("Authentication Error")
+                appSettings.isSignedIn = false
+            case 400..<500:
+                print("Response Error")
+            default:
+                print(response.statusCode)
+            }
+        }.resume()
+    }
+    func getMowers(appSettings: AppSettings) {
+        guard let url = URL(string:  "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080/mobile/user/mowers" ) else { return }
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(keychain.string(forKey: "accessToken") ?? "")", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+        URLSession.shared.dataTask(with: request) { ( data, response, error ) in
+            guard let response = response as? HTTPURLResponse else { return }
+            switch response.statusCode {
+            case 200:
+                guard let data = data, error == nil else { return }
+                DispatchQueue.main.async {
+                    do {
+                        self.mowers = try JSONDecoder().decode([Mower].self, from: data)
+                        appSettings.isSignedIn = true
+                    } catch {
+                        print(error)
+                    }
+                }
+            case 401:
+                print("Authentication Error")
+                appSettings.isSignedIn = false
             case 400..<500:
                 print("Response Error")
             default:
@@ -89,7 +117,7 @@ class ApiManager: ObservableObject {
         let json: [String: String] = ["mowerId": mowerId, "status": status]
         guard let url = URL(string:  "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080/mobile/mower" ) else { return }
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(keychain.string(forKey: "accessToken") ?? "")", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         request.httpBody = try? JSONSerialization.data(withJSONObject: json)
@@ -110,6 +138,7 @@ class ApiManager: ObservableObject {
                 }
             case 401:
                 print("Authentication Error")
+                appSettings.isSignedIn = false
             case 400..<500:
                 print("Response Error")
             default:
@@ -122,7 +151,7 @@ class ApiManager: ObservableObject {
         let json: [String: String] = ["status": status]
         guard let url = URL(string:  "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080/mobile/mower/\(mowerId)" ) else { return }
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(keychain.string(forKey: "accessToken") ?? "")", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "PUT"
         request.httpBody = try? JSONSerialization.data(withJSONObject: json)
@@ -144,6 +173,7 @@ class ApiManager: ObservableObject {
                 }
             case 401:
                 print("Authentication Error")
+                appSettings.isSignedIn = false
             case 400..<500:
                 print("Response Error")
             default:
@@ -152,10 +182,10 @@ class ApiManager: ObservableObject {
         }.resume()
     }
     
-    func getMowingSessions(mowerId: String) {
+    func getMowingSessions(mowerId: String, appSettings: AppSettings) {
         guard let url = URL(string:  "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080/mobile/mowingSessions/\(mowerId)" ) else { return }
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(keychain.string(forKey: "accessToken") ?? "")", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         URLSession.shared.dataTask(with: request) { ( data, response, error ) in
             guard let response = response as? HTTPURLResponse else { return }
@@ -171,6 +201,7 @@ class ApiManager: ObservableObject {
                 }
             case 401:
                 print("Authentication Error")
+                appSettings.isSignedIn = false
             case 400..<500:
                 print("Response Error")
             default:
@@ -182,7 +213,7 @@ class ApiManager: ObservableObject {
     func getMowingSession(sessionId: Int, appSettings: AppSettings) {
         guard let url = URL(string:  "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080/mobile/mowingSession/\(sessionId)" ) else { return }
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(keychain.string(forKey: "accessToken") ?? "")", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         URLSession.shared.dataTask(with: request) { ( data, response, error ) in
             guard let response = response as? HTTPURLResponse else { return }
@@ -235,8 +266,8 @@ class ApiManager: ObservableObject {
                 // Login successful
                 else if responseCode == 200 {
                     let decodedData = try! JSONDecoder().decode(LoginSuccessful.self, from: data)
-                    keychain.set(decodedData.accessToken, forKey: "accessToken")
                     DispatchQueue.main.async {
+                        self.keychain.set(decodedData.accessToken, forKey: "accessToken")
                         appSettings.loginAttemptStatusMessage = "Login successful"
                         appSettings.isSignedIn = true
                     }

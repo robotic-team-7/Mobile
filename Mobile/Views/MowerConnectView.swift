@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftKeychainWrapper
 
 struct MowerConnectView: View {
     init() {
@@ -37,7 +38,9 @@ struct MowerConnectView: View {
                     Spacer()
                     HStack {
                         Button(action: {
-                            apiManager.getMowers(appSettings: self.appSettings)
+                            // apiManager.getMowers(appSettings: self.appSettings)
+                            KeychainWrapper.standard.removeObject(forKey: "accessToken")
+                            appSettings.isSignedIn = false
                         }) {
                             Text("Refresh")
                                 .frame(maxWidth: .infinity)

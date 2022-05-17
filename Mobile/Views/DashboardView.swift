@@ -83,7 +83,7 @@ struct DashboardView: View {
                             Spacer()
                             HStack {
                                 Button(action: {
-                                    apiManager.getMowingSessions(mowerId: apiManager.mower.first!.mowerId)
+                                    apiManager.getMowingSessions(mowerId: apiManager.mower.first!.mowerId, appSettings: self.appSettings)
                                 }) {
                                     Text("Refresh")
                                         .frame(maxWidth: .infinity)
