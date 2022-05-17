@@ -14,6 +14,7 @@ class AppSettings: ObservableObject {
     @Published var isMowerSelected: Bool
     @Published var isSessionSelected: Bool
     @Published var isSignedIn: Bool
+    @Published var loginAttemptStatusMessage: String
 
     init() {
         self.username = nil
@@ -23,5 +24,6 @@ class AppSettings: ObservableObject {
         self.isMowerSelected = false
         self.isSessionSelected = false
         self.isSignedIn = false
+        self.loginAttemptStatusMessage = ""
     }
 }

@@ -8,13 +8,14 @@
 import Foundation
 import Combine
 import SwiftUI
+import SwiftKeychainWrapper
 
 class ApiManager: ObservableObject {
     @Published var mowers = [Mower]()
     @Published var mowingSessions = [MowingSession]()
     @Published var obstacles = [Obstacle]()
     @Published var serverAddress = "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080"
-    @EnvironmentObject private var appSettings: AppSettings
+    private let keychain = KeychainWrapper.standard
     
     private let authToken = ""
     init() {
@@ -67,7 +68,7 @@ class ApiManager: ObservableObject {
         }.resume()
     }
     
-    func signIn(username: String, password: String) async {
+    func signIn(username: String, password: String, appSettings: AppSettings) async {
         guard let url = URL(string: "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080/auth/sign-in") else { return }
             
         var request = URLRequest(url: url)
@@ -87,18 +88,20 @@ class ApiManager: ObservableObject {
                 // Login failed - NotAuthorizedException
                 if responseCode == 400 {
                     let decodedData = try! JSONDecoder().decode(LoginFailed.self, from: data)
-                    appSettings.username = ""
-                    appSettings.authToken = ""
-                    appSettings.isSignedIn = false
+                    DispatchQueue.main.async {
+                        appSettings.loginAttemptStatusMessage = "Username or password was incorrect"
+                        appSettings.isSignedIn = false
+                    }
                     print(decodedData)
                 }
                 // Login successful
                 else if responseCode == 200 {
                     let decodedData = try! JSONDecoder().decode(LoginSuccessful.self, from: data)
-                    appSettings.username = decodedData.username
-                    appSettings.authToken = decodedData.accessToken
-                    appSettings.isSignedIn = true
-                    print(decodedData)
+                    keychain.set(decodedData.accessToken, forKey: "accessToken")
+                    DispatchQueue.main.async {
+                        appSettings.loginAttemptStatusMessage = "Login successful"
+                        appSettings.isSignedIn = true
+                    }
                 }
             }
         } catch {

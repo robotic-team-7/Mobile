@@ -6,14 +6,18 @@
 //
 
 import SwiftUI
+import SwiftKeychainWrapper
 
 struct SignInView: View {
     @State var username: String = ""
     @State var password: String = ""
     @State var attemptingLogin: Bool = false
+    @State private var keychainAccessToken =  KeychainWrapper.standard.string(forKey: "accessToken")
+    @State private  var defaultsLoginMessage = UserDefaults.standard.string(forKey: "loginAttemptStatusMessages")
     @StateObject private var apiManager = ApiManager()
     //@ObservedObject private var appSettings: AppSettings = AppSettings()
     @EnvironmentObject private var appSettings: AppSettings
+    private let keychain = KeychainWrapper.standard
     
     let screenHeight = UIScreen.main.bounds.size.height
     let screenWidth = UIScreen.main.bounds.size.width
@@ -40,6 +44,7 @@ struct SignInView: View {
                                 TextField("", text: $username)
                                     .foregroundColor(Color.scheme.fg)
                                     .tint(.white)
+                                    .textInputAutocapitalization(.never)
                             }
                         }
                         Divider().background(Color.scheme.fg)
@@ -58,13 +63,15 @@ struct SignInView: View {
                                 SecureField("", text: $password)
                                     .foregroundColor(Color.scheme.fg)
                                     .tint(.white)
+                                    .textInputAutocapitalization(.never)
                             }
                         }
                         Divider().background(Color.scheme.fg)
                     }
                     .padding(.horizontal)
                     .padding(.top, 20)
-
+                    Text(appSettings.loginAttemptStatusMessage)
+                        .foregroundColor(appSettings.isSignedIn ? Color.green : Color.red)
                     Spacer()
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
@@ -72,11 +79,9 @@ struct SignInView: View {
                     Spacer()
                     Button(action: {
                         Task {
-                            print("username", appSettings.username)
                             attemptingLogin = true
-                            await apiManager.signIn(username: username, password: password)
+                            await apiManager.signIn(username: username, password: password, appSettings: appSettings)
                             attemptingLogin = false
-                            print("username", appSettings.username)
                         }
                         print("Attempt login")
                     }) {
@@ -103,6 +108,8 @@ struct SignInView: View {
 
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInView().preferredColorScheme(.dark)
+        SignInView()
+            .preferredColorScheme(.dark)
+            .environmentObject(AppSettings())
     }
 }
