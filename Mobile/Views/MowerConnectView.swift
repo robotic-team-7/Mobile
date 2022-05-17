@@ -20,8 +20,7 @@ struct MowerConnectView: View {
     var body: some View {
         ZStack {
             Color.scheme.bg
-            if (appSettings.selectedMowerId != nil) {
-                //SessionConnectView()
+            if (!apiManager.mower.isEmpty) {
                 NavView()
             }
             else if (createNewMower) {
@@ -31,15 +30,14 @@ struct MowerConnectView: View {
                 VStack {
                     List(apiManager.mowers) { mower in
                         Button(action: {
-                            appSettings.selectedMowerId = mower.mowerId
-                            print(appSettings.selectedMowerId!)
+                            apiManager.getMower(mowerId: mower.mowerId, appSettings: self.appSettings)
                         }){
                             Text(mower.mowerId)
                         }.listRowBackground(Color.scheme.darkBg)}
                     Spacer()
                     HStack {
                         Button(action: {
-                            apiManager.getMowers()
+                            apiManager.getMowers(appSettings: self.appSettings)
                         }) {
                             Text("Refresh")
                                 .frame(maxWidth: .infinity)
@@ -56,7 +54,7 @@ struct MowerConnectView: View {
                 }
                 .padding()
                 .onAppear(){
-                    apiManager.getMowers()
+                    apiManager.getMowers(appSettings: self.appSettings)
                 }
             }
         }

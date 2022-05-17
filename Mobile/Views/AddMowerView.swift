@@ -15,7 +15,7 @@ struct AddMowerView: View {
     var body: some View {
         ZStack {
             Color.scheme.bg
-            if (appSettings.selectedMowerId != nil) {
+            if (!apiManager.mower.isEmpty) {
                 NavView()
             }
             else {

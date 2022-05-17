@@ -18,43 +18,49 @@ struct MapView: View {
         NavigationView {
             ZStack {
                 Color.scheme.bg
-                ZStack {
-                    Canvas { context, size in
-                        for line in mowerPath {
-                            let path = createPath(for: line.points)
-                            context.stroke(path,
-                                           with: .color(line.color),
-                                           style: StrokeStyle(lineWidth: line.linewidth, dash: [line.dash]))
-                        }
-                    }
-                    .onReceive(timer) { input in
-                        apiManager.getMowingSession(sessionId: appSettings.selectedSessionId!, appSettings: self.appSettings)
-                        mowerPath = [Line(points: [CGPoint](), linewidth: 5, dash: 5, color: .black)]
-                        for mowerPosition in apiManager.mowingSession.first!.mowerPositions.points {
-                            mowerPath[0].points.append(CGPoint(x: mowerPosition[0], y: mowerPosition[1]))
-                        }
-                    }
-                    .background(Image("grasslight-big").resizable().aspectRatio(contentMode: .fill))
-                    .cornerRadius(25)
-                    .overlay(RoundedRectangle(cornerRadius: 25).stroke(Color.white, lineWidth: 2))
-                    .padding()
-                    if (!apiManager.mowingSession.isEmpty){
-                        ForEach(apiManager.mowingSession.first!.Obstacles) { Obstacle in
-                            Image(systemName: "exclamationmark.triangle.fill")
-                                .position(CGPoint(x: Obstacle.obstaclePosition[0], y: Obstacle.obstaclePosition[1]))
-                                .foregroundColor(.yellow)
-                                .font(.largeTitle)
-                        }
-                        if (!apiManager.mowingSession.first!.mowerPositions.points.isEmpty){
-                            Image(systemName: "mappin.and.ellipse")
-                                .position(CGPoint(x: apiManager.mowingSession.first!.mowerPositions.points.last!.first!, y: apiManager.mowingSession.first!.mowerPositions.points.last!.last!))
-                                .font(.largeTitle)
-                        }
-                    }
+                if (apiManager.mowingSession.isEmpty){
+                    Text("No Session")
                 }
-                .navigationTitle("Map")
-                .navigationBarTitleDisplayMode(.inline)
+                else {
+                    ZStack {
+                        Canvas { context, size in
+                            for line in mowerPath {
+                                let path = createPath(for: line.points)
+                                context.stroke(path,
+                                               with: .color(line.color),
+                                               style: StrokeStyle(lineWidth: line.linewidth, dash: [line.dash]))
+                            }
+                        }
+                        .onReceive(timer) { input in
+                            apiManager.getMowingSession(sessionId: apiManager.mowingSession.first!.mowingSessionId, appSettings: self.appSettings)
+                            mowerPath = [Line(points: [CGPoint](), linewidth: 5, dash: 5, color: .black)]
+                            for mowerPosition in apiManager.mowingSession.first!.mowerPositions.points {
+                                mowerPath[0].points.append(CGPoint(x: mowerPosition[0], y: mowerPosition[1]))
+                            }
+                        }
+                        .background(Image("grasslight-big").resizable().aspectRatio(contentMode: .fill))
+                        .cornerRadius(25)
+                        .overlay(RoundedRectangle(cornerRadius: 25).stroke(Color.white, lineWidth: 2))
+                        .padding()
+                        if (!apiManager.mowingSession.isEmpty){
+                            ForEach(apiManager.mowingSession.first!.Obstacles) { Obstacle in
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .position(CGPoint(x: Obstacle.obstaclePosition[0], y: Obstacle.obstaclePosition[1]))
+                                    .foregroundColor(.yellow)
+                                    .font(.largeTitle)
+                            }
+                            if (!apiManager.mowingSession.first!.mowerPositions.points.isEmpty){
+                                Image(systemName: "mappin.and.ellipse")
+                                    .position(CGPoint(x: apiManager.mowingSession.first!.mowerPositions.points.last!.first!, y: apiManager.mowingSession.first!.mowerPositions.points.last!.last!))
+                                    .font(.largeTitle)
+                            }
+                        }
+                    }
+                    
+                }
             }
+            .navigationTitle("Map")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
     

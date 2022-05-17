@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NavView: View {
     @EnvironmentObject private var appSettings: AppSettings
+    @EnvironmentObject private var apiManager: ApiManager
     // Applying navigation control theme
     init() {
         // Setting tabbar appearance
@@ -26,7 +27,10 @@ struct NavView: View {
     }
 
     var body: some View {
-        if (appSettings.selectedMowerId == nil) {
+        if (appSettings.isSignedIn) {
+            
+        }
+        else if (apiManager.mower.isEmpty) {
             MowerConnectView()
         }
         else {

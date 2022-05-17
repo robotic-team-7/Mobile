@@ -18,8 +18,8 @@ struct DashboardView: View {
                 VStack {
                     // Status items for mower
                     HStack {
-                        DashItem(title: "Status", text: "\(apiManager.mower.description)", image: "togglepower", progress: nil)
-                        DashItem(title: "Battery", text: "\(Double(apiManager.mower.capacity) / 100)", image: "bolt.square.fill",  progress: Double(apiManager.mower.capacity) / 100)
+                        DashItem(title: "Status", text: "\(apiManager.mower.first!.status)", image: "togglepower", progress: nil)
+                        DashItem(title: "Mower", text: "\(apiManager.mower.first!.id)", image: "bolt.square.fill",  progress: Double(apiManager.mower.capacity) / 100)
                     }
                     .fixedSize(horizontal: false, vertical: true)
                     // Status items for mowing session
@@ -31,37 +31,51 @@ struct DashboardView: View {
                     }
                     HStack {
                         VStack (alignment: .leading) {
-                            Text("Auto")
+                            Text("Power")
                                 .font(.title3.bold())
                             Spacer()
-                            Toggle(isOn: $appSettings.autoMode ){}
+                            Toggle(isOn: $appSettings.mowerIsOn ){}
                                 .labelsHidden()
                                 .frame(maxWidth: .infinity, alignment: .center)
+                                .onChange(of: appSettings.mowerIsOn) { on in
+                                    print(on)
+                                    var status = "stop"
+                                    if (on) {
+                                        status = "start auto"
+                                    }
+                                    apiManager.setMowerStatus(mowerId: apiManager.mower.first!.mowerId, status: status, appSettings: self.appSettings)
+                                }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                         .padding(10)
                         .background(Color.scheme.darkBg)
                         .cornerRadius(/*@START_MENU_TOKEN@*/5.0/*@END_MENU_TOKEN@*/)
-                        DashItem(title: "Time running", text: "50 minutes", image: nil, progress: nil)
+                        VStack (alignment: .leading) {
+                            Text("Manual Mode")
+                                .font(.title3.bold())
+                            Spacer()
+                            Toggle(isOn: $appSettings.mowerIsBle ){}
+                                .labelsHidden()
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .onChange(of: appSettings.mowerIsBle) { on in
+                                    var status = "stop"
+                                    if (on) {
+                                        status = "start manual"
+                                    }
+                                    apiManager.setMowerStatus(mowerId: apiManager.mower.first!.mowerId, status: status, appSettings: self.appSettings)
+                                }
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                        .padding(10)
+                        .background(Color.scheme.darkBg)
+                        .cornerRadius(/*@START_MENU_TOKEN@*/5.0/*@END_MENU_TOKEN@*/)
                     }.fixedSize(horizontal: false, vertical: true)
                     Spacer()
-                    if (appSettings.selectedSessionId != nil) {
-                        Button(action: {
-                            appSettings.selectedSessionId = nil
-                        }) {
-                            Text("Disconnect from session")
-                                .frame(maxWidth: screenWidth * 0.5)
-                                .frame(height: 48)
-                        }
-                        .buttonStyle(.bordered)
-                        .disabled(false)
-                    }
-                    else {
+                    if (apiManager.mowingSession.isEmpty) {
                         VStack {
                             Text("Mowing Sessions")
                             List(apiManager.mowingSessions) { mowingSession in
                                 Button(action: {
-                                    appSettings.selectedSessionId = mowingSession.mowingSessionId
                                     apiManager.getMowingSession(sessionId: mowingSession.mowingSessionId, appSettings: self.appSettings)
                                 }){
                                     Text("Id: \(mowingSession.mowingSessionId) Date: \(mowingSession.createdAt)")
@@ -69,7 +83,7 @@ struct DashboardView: View {
                             Spacer()
                             HStack {
                                 Button(action: {
-                                    apiManager.getMowingSessions(mowerId: appSettings.selectedMowerId!)
+                                    apiManager.getMowingSessions(mowerId: apiManager.mower.first!.mowerId)
                                 }) {
                                     Text("Refresh")
                                         .frame(maxWidth: .infinity)
@@ -77,6 +91,17 @@ struct DashboardView: View {
                                 }.buttonStyle(.bordered)
                             }
                         }
+                    }
+                    else {
+                        Button(action: {
+                            apiManager.mowingSession = []
+                        }) {
+                            Text("Disconnect from session")
+                                .frame(maxWidth: screenWidth * 0.5)
+                                .frame(height: 48)
+                        }
+                        .buttonStyle(.bordered)
+                        .disabled(false)
                     }
                 }.padding(10)
             }
