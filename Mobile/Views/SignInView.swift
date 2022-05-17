@@ -10,6 +10,10 @@ import SwiftUI
 struct SignInView: View {
     @State var username: String = ""
     @State var password: String = ""
+    @State var attemptingLogin: Bool = false
+    @StateObject private var apiManager = ApiManager()
+    //@ObservedObject private var appSettings: AppSettings = AppSettings()
+    @EnvironmentObject private var appSettings: AppSettings
     
     let screenHeight = UIScreen.main.bounds.size.height
     let screenWidth = UIScreen.main.bounds.size.width
@@ -60,9 +64,20 @@ struct SignInView: View {
                     }
                     .padding(.horizontal)
                     .padding(.top, 20)
+
+                    Spacer()
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .opacity(attemptingLogin ? 1 : 0)
                     Spacer()
                     Button(action: {
-                        API().signIn(username: username, password: password)
+                        Task {
+                            print("username", appSettings.username)
+                            attemptingLogin = true
+                            await apiManager.signIn(username: username, password: password)
+                            attemptingLogin = false
+                            print("username", appSettings.username)
+                        }
                         print("Attempt login")
                     }) {
                         Text("LOGIN")
