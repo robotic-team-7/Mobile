@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import SwiftUI
+import SwiftKeychainWrapper
 
 class ApiManager: ObservableObject {
     @Published var mowers: [Mower] = []
@@ -17,7 +18,8 @@ class ApiManager: ObservableObject {
     @Published var obstacles: [Obstacle] = []
     @Published var serverAddress = "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080"
     private let authToken = "eyJraWQiOiJweW1jVm9UdmMxOVI4eTlmbnR2OFgwSkJOQ1wvZ1dyOXhoa3JGQXM0bUJ0RT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhNDA0ZGIwNi01NGE3LTQ3MTUtOWE2ZS05OWNmNmUxY2NmNGYiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAuZXUtbm9ydGgtMS5hbWF6b25hd3MuY29tXC9ldS1ub3J0aC0xXzBVZDMwTEl3eiIsImNsaWVudF9pZCI6IjE5aW5yc2NiaGM0aGdycHM3ajMxbGo3Z2M1Iiwib3JpZ2luX2p0aSI6ImU4YjUxMzQ5LTY1OTEtNDVlOC05ZTZjLTM5MjViZTNmMzI1MyIsImV2ZW50X2lkIjoiODI3M2Q3MDctMzgzOS00NWFhLWFhMDgtZGRlZTY0YWQwNzliIiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJhd3MuY29nbml0by5zaWduaW4udXNlci5hZG1pbiIsImF1dGhfdGltZSI6MTY1Mjc3NzAyMywiZXhwIjoxNjUyODYzNDIzLCJpYXQiOjE2NTI3NzcwMjMsImp0aSI6IjA3YTk5MDk4LTliMjItNGNhMS04ZTJhLTRjZDU2MjI0MmI4MCIsInVzZXJuYW1lIjoiYW5uaWVtaWtlbiJ9.Pu8N_zROWnmj7lLPsQtuhEJfzFLIHho0AvPvAXlyYSWrv189bePJuAmsG9AgnzdISKsxw9DtUeqr0xONwa6TV1ZDgdxxXIxEpVka5_-pkiHyVBEOnCY_Xm6HIevE2PX3geaVzSoeBLd-UeNZHkDj4bmdxA4gQwNm_ssoxkwqeTEFD00EOaKRdhCJSWZOd-gkjBxIWFsZcxVHn3s3QNnc7W0yQMiIx9hiE_cn8sUoZv_q4SGQ1kQpNuDvPhKdugDcMosEhppLx07MwTxh4MqGaIGNx-J25bwOvl18Oo2WJhqnOBNBXz5-hh6PjwIiWLeJVDzKc6J19ywPG16vHZb9yA"
-    
+    private let keychain = KeychainWrapper.standard
+
     func getMower(mowerId: String, appSettings: AppSettings) {
         guard let url = URL(string:  "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080/mobile/\(mowerId)" ) else { return }
         var request = URLRequest(url: url)
@@ -203,6 +205,47 @@ class ApiManager: ObservableObject {
             }
         }.resume()
     }
+    
+    func signIn(username: String, password: String, appSettings: AppSettings) async {
+        guard let url = URL(string: "http://ec2-54-227-56-79.compute-1.amazonaws.com:8080/auth/sign-in") else { return }
+            
+        var request = URLRequest(url: url)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        
+        let jsonDictionary: [String: String] = [
+            "username": username,
+            "password": password
+        ]
+        let encodedData = try! JSONSerialization.data(withJSONObject: jsonDictionary, options: .prettyPrinted)
+        
+        do {
+            let (data, response) = try await URLSession.shared.upload(for: request, from: encodedData)
+            
+            if let responseCode = (response as? HTTPURLResponse)?.statusCode {
+                // Login failed - NotAuthorizedException
+                if responseCode == 400 {
+                    let decodedData = try! JSONDecoder().decode(LoginFailed.self, from: data)
+                    DispatchQueue.main.async {
+                        appSettings.loginAttemptStatusMessage = "Username or password was incorrect"
+                        appSettings.isSignedIn = false
+                    }
+                    print(decodedData)
+                }
+                // Login successful
+                else if responseCode == 200 {
+                    let decodedData = try! JSONDecoder().decode(LoginSuccessful.self, from: data)
+                    keychain.set(decodedData.accessToken, forKey: "accessToken")
+                    DispatchQueue.main.async {
+                        appSettings.loginAttemptStatusMessage = "Login successful"
+                        appSettings.isSignedIn = true
+                    }
+                }
+            }
+        } catch {
+            print("Something went wrong.")
+        }
+    }
 }
 
 struct MowerPositions: Decodable, Equatable {
@@ -256,4 +299,21 @@ struct Obstacle: Decodable, Identifiable {
     var id: Int {
         obstacleId
     }
+}
+struct LoginFailed: Decodable {
+    let message: String
+    let code: String
+    let time: String
+    let requestId: String
+    let statusCode: Int
+    let retryable: Bool
+    let retryDelay: Double
+}
+
+struct LoginSuccessful: Decodable {
+    let accessToken: String
+    let email: String
+    let username: String
+    let name: String
+    let family_name: String
 }

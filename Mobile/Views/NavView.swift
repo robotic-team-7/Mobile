@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftKeychainWrapper
 
 struct NavView: View {
     @EnvironmentObject private var appSettings: AppSettings
@@ -27,8 +28,11 @@ struct NavView: View {
     }
 
     var body: some View {
-        if (appSettings.isSignedIn) {
-            
+        // if (KeychainWrapper.standard.string(forKey: "accessToken") == nil) {
+        //     SignInView()
+        // }
+        if (!appSettings.isSignedIn) {
+            SignInView()
         }
         else if (apiManager.mower.isEmpty) {
             MowerConnectView()
@@ -63,5 +67,6 @@ struct NavView: View {
 struct NavView_Previews: PreviewProvider {
     static var previews: some View {
         NavView()
+            .environmentObject(AppSettings())
     }
 }

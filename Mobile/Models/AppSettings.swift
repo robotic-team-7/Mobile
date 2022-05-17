@@ -12,6 +12,7 @@ class AppSettings: ObservableObject {
     @Published var mowerIsOn: Bool
     @Published var mowerIsBle: Bool
     @Published var isSignedIn: Bool
+    @Published var loginAttemptStatusMessage: String
 
     init() {
         self.username = nil
@@ -19,5 +20,6 @@ class AppSettings: ObservableObject {
         self.isSignedIn = false
         self.mowerIsOn = false
         self.mowerIsBle = false
+        self.loginAttemptStatusMessage = ""
     }
 }
