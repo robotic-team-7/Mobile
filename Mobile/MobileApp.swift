@@ -9,7 +9,6 @@ import SwiftUI
 
 @main
 struct MobileApp: App {
-    
     var body: some Scene {
         WindowGroup {
             // Starting with splash screen.
@@ -17,7 +16,7 @@ struct MobileApp: App {
             SplashView()
                 .preferredColorScheme(.dark)
                 .environmentObject(AppSettings())
-                //.environmentObject(BleData(sendCommand: 0))
+                .environmentObject(ApiManager())
         }
     }
 }

@@ -1,33 +1,35 @@
 //
-//  ServerConnectView.swift
+//  AddMowerView.swift
 //  Mobile
 //
-//  Created by user on 2022-04-19.
+//  Created by user on 2022-05-12.
 //
 
 import SwiftUI
 
-struct ServerConnectView: View {
+struct AddMowerView: View {
     let screenWidth = UIScreen.main.bounds.size.width
     @EnvironmentObject private var appSettings: AppSettings
+    @EnvironmentObject private var apiManager: ApiManager
+    @State var mowerName = ""
     var body: some View {
         ZStack {
             Color.scheme.bg
-            if (appSettings.isSignedIn) {
-                MowerConnectView()
+            if (!apiManager.mower.isEmpty) {
+                NavView()
             }
             else {
                 VStack {
-                    Text("Enter Mower Address")
+                    Text("Enter mower name")
                         .font(.largeTitle)
-                    //TextField("", text: $appSettings.serverAddress)
+                    TextField("", text: $mowerName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .colorScheme(.light)
                         .padding()
                     Button(action: {
-                        appSettings.isSignedIn = true
+                        apiManager.addMower(mowerId: mowerName, status: "start auto", appSettings: self.appSettings)
                     }) {
-                        Text("Connect")
+                        Text("Add")
                             .frame(maxWidth: screenWidth * 0.5)
                             .frame(height: 48)
                     }
@@ -38,8 +40,8 @@ struct ServerConnectView: View {
     }
 }
 
-struct ServerConnectView_Previews: PreviewProvider {
+struct AddMowerView_Previews: PreviewProvider {
     static var previews: some View {
-        ServerConnectView()
+        AddMowerView()
     }
 }

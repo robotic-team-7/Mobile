@@ -10,7 +10,7 @@ import SwiftKeychainWrapper
 
 struct NavView: View {
     @EnvironmentObject private var appSettings: AppSettings
-    // private let btService = SimpleBluetoothIO()
+    @EnvironmentObject private var apiManager: ApiManager
     // Applying navigation control theme
     init() {
         // Setting tabbar appearance
@@ -28,11 +28,14 @@ struct NavView: View {
     }
 
     var body: some View {
-        if (KeychainWrapper.standard.string(forKey: "accessToken") == nil) {
+        // if (KeychainWrapper.standard.string(forKey: "accessToken") == nil) {
+        //     SignInView()
+        // }
+        if (!appSettings.isSignedIn) {
             SignInView()
         }
-        else if (!appSettings.isSessionSelected) {
-            ServerConnectView()
+        else if (apiManager.mower.isEmpty) {
+            MowerConnectView()
         }
         else {
             TabView {
@@ -41,19 +44,16 @@ struct NavView: View {
                         Image(systemName: "house.fill")
                         Text("Dashboard")
                     }
-                // ControllerView(btService)
                 ControllerView()
                     .tabItem {
                         Image(systemName: "gamecontroller.fill")
                         Text("Remote")
                     }
-                // Replace with actual views later on
                 MapView()
                     .tabItem {
                         Image(systemName: "map.fill")
                         Text("Map")
                     }
-
                 GalleryView()
                     .tabItem {
                         Image(systemName:"photo.fill")

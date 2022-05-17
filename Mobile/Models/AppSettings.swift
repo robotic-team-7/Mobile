@@ -9,21 +9,17 @@ import Foundation
 class AppSettings: ObservableObject {
     @Published var username: String?
     @Published var authToken: String?
-    @Published var selectedMowerId: String?
-    @Published var selectedSessionId: Int?
-    @Published var isMowerSelected: Bool
-    @Published var isSessionSelected: Bool
+    @Published var mowerIsOn: Bool
+    @Published var mowerIsBle: Bool
     @Published var isSignedIn: Bool
     @Published var loginAttemptStatusMessage: String
 
     init() {
         self.username = nil
         self.authToken = nil
-        self.selectedMowerId = nil
-        self.selectedSessionId = nil
-        self.isMowerSelected = false
-        self.isSessionSelected = false
         self.isSignedIn = false
+        self.mowerIsOn = false
+        self.mowerIsBle = false
         self.loginAttemptStatusMessage = ""
     }
 }

@@ -8,16 +8,21 @@
 import SwiftUI
 struct SplashView: View {
     @State var isActive:Bool = false
+    @EnvironmentObject private var appSettings: AppSettings
+    @EnvironmentObject private var apiManager: ApiManager
     var body: some View {
         ZStack {
             Color.scheme.bg
                 .ignoresSafeArea()
             VStack {
                 if self.isActive {
-                    ServerConnectView()
+                    NavView()
                 } else {
                     Text("Lawnmower 9000")
                         .font(Font.largeTitle)
+                        .onAppear{
+                            apiManager.getMowers(appSettings: self.appSettings)
+                        }
                 }
             }
         }

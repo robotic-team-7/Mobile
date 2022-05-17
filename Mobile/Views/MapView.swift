@@ -8,63 +8,62 @@
 import SwiftUI
 
 struct MapView: View {
-    // @ObservedObject var apiManager = ApiManager()
-    @State private var lines = [Line]()
-    @State private var mower = CGPoint()
+    @State private var mowerPath = [Line]()
+    @State private var mowerPosition = CGPoint()
     @State private var obstacles = [CGPoint]()
-    @State private var undoLines = [Line]()
+    let timer = Timer.publish(every: 10, on: .main, in: .common).autoconnect()
+    @EnvironmentObject private var appSettings: AppSettings
+    @EnvironmentObject private var apiManager: ApiManager
     var body: some View {
         NavigationView {
             ZStack {
                 Color.scheme.bg
-                ZStack {
-                    Canvas { context, size in
-                        for line in lines {
-                            let path = createPath(for: line.points)
-                            context.stroke(path,
-                                           with: .color(line.color),
-                                           style: StrokeStyle(lineWidth: line.linewidth, dash: [line.dash]))
-                        }
-                    }
-                    .gesture(DragGesture(minimumDistance: 0).onChanged({ value in
-                        print(value.location)
-                        mower = value.location
-                        obstacles.append(value.location)
-                        if lines.isEmpty {
-                            lines.append(Line(points: [CGPoint](), linewidth: 5, dash: 5, color: .black))
-                        }
-                        let index = lines.count - 1
-                        lines[index].points.append(value.location)
-//                        if value.translation.width + value.translation.height == 0 {
-//                            // length of line is zero -> new line
-//                            lines.append(Line(points: [CGPoint](), linewidth: 1, color: .black))
-//                        } else {
-//                            print(value.location)
-//                            let index = lines.count - 1
-//                            lines[index].points.append(value.location)
-//                        }
-                    }))
-                    .background(Image("grasslight-big").resizable().aspectRatio(contentMode: .fill))
-                    .cornerRadius(25)
-                    .overlay(RoundedRectangle(cornerRadius: 25).stroke(Color.white, lineWidth: 2))
-                    .padding()
-                    Image(systemName: "mappin.and.ellipse")
-                        //.frame(alignment: .topLeading)
-                        .position(mower)
-                        .font(.title2)
-                        .padding()
-                    //ForEach(api.obstacles.indices, id: \.self) { index in
-                    //    Image(systemName: "exclamationmark.triangle.fill").position(obstacles[index])/// use each element in the array
-                    //}
-                    ForEach(obstacles.indices, id: \.self) { index in
-                        Image(systemName: "exclamationmark.triangle.fill").position(obstacles[index])/// use each element in the array
-                    }
+                if (apiManager.mowingSession.isEmpty){
+                    Text("No Session")
                 }
-                .navigationTitle("Map")
-                .navigationBarTitleDisplayMode(.inline)
+                else {
+                    ZStack {
+                        Canvas { context, size in
+                            for line in mowerPath {
+                                let path = createPath(for: line.points)
+                                context.stroke(path,
+                                               with: .color(line.color),
+                                               style: StrokeStyle(lineWidth: line.linewidth, dash: [line.dash]))
+                            }
+                        }
+                        .onReceive(timer) { input in
+                            apiManager.getMowingSession(sessionId: apiManager.mowingSession.first!.mowingSessionId, appSettings: self.appSettings)
+                            mowerPath = [Line(points: [CGPoint](), linewidth: 5, dash: 5, color: .black)]
+                            for mowerPosition in apiManager.mowingSession.first!.mowerPositions.points {
+                                mowerPath[0].points.append(CGPoint(x: mowerPosition[0], y: mowerPosition[1]))
+                            }
+                        }
+                        .background(Image("grasslight-big").resizable().aspectRatio(contentMode: .fill))
+                        .cornerRadius(25)
+                        .overlay(RoundedRectangle(cornerRadius: 25).stroke(Color.white, lineWidth: 2))
+                        .padding()
+                        if (!apiManager.mowingSession.isEmpty){
+                            ForEach(apiManager.mowingSession.first!.Obstacles) { Obstacle in
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .position(CGPoint(x: Obstacle.obstaclePosition[0], y: Obstacle.obstaclePosition[1]))
+                                    .foregroundColor(.yellow)
+                                    .font(.largeTitle)
+                            }
+                            if (!apiManager.mowingSession.first!.mowerPositions.points.isEmpty){
+                                Image(systemName: "mappin.and.ellipse")
+                                    .position(CGPoint(x: apiManager.mowingSession.first!.mowerPositions.points.last!.first!, y: apiManager.mowingSession.first!.mowerPositions.points.last!.last!))
+                                    .font(.largeTitle)
+                            }
+                        }
+                    }
+                    
+                }
             }
+            .navigationTitle("Map")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
+    
     func createPath(for line: [CGPoint]) -> Path {
         var path = Path()
         if let firstPoint = line.first {
