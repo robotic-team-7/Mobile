@@ -16,6 +16,8 @@ struct GalleryView: View {
     ]
     
     let screenWidth = UIScreen.main.bounds.size.width
+    @State var isSheetPresented = false
+    @State var selectedImage = ""
     
     var body: some View {
         NavigationView {
@@ -39,7 +41,14 @@ struct GalleryView: View {
                                             .clipShape(RoundedRectangle(cornerRadius: 10))
                                             .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.white, lineWidth: 2))
                                     }
+                                    .onTapGesture {
+                                        selectedImage = item
+                                        isSheetPresented = true
+                                    }
                                 }
+                            }
+                            .sheet(isPresented: $isSheetPresented) {
+                                ObstacleSheetView(imageName: $selectedImage)
                             }
                         }.padding()
                         Button(action: {
@@ -57,7 +66,6 @@ struct GalleryView: View {
             .navigationTitle("Obstacle Gallery")
             .navigationBarTitleDisplayMode(.inline)
         }
-
     }
 }
 
