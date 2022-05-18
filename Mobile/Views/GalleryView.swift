@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct GalleryView: View {
-    private let data = ["cat", "dog", "fox", "koala", "squirrel"]
     @EnvironmentObject private var apiManager: ApiManager
     private let columns = [
         GridItem(.flexible(), spacing: 15),
@@ -18,6 +17,7 @@ struct GalleryView: View {
     let screenWidth = UIScreen.main.bounds.size.width
     @State var isSheetPresented = false
     @State var selectedImage = ""
+    @State var selectedImageClassification = ""
     
     var body: some View {
         NavigationView {
@@ -31,36 +31,38 @@ struct GalleryView: View {
                     VStack {
                         ScrollView {
                             LazyVGrid(columns: columns) {
-                                ForEach(data, id: \.self) { item in
+                                ForEach(apiManager.mowingSession[0].Obstacles, id: \.self) { obstacle in
                                     ZStack {
-                                        Image(item)
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(minWidth: 0, maxWidth: .infinity)
-                                            .aspectRatio(1, contentMode: .fit)
-                                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.white, lineWidth: 2))
+                                        AsyncImage(url: URL(string: obstacle.imagePath)) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(minWidth: 0, maxWidth: .infinity)
+                                                .aspectRatio(1, contentMode: .fit)
+                                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.white, lineWidth: 2))
+                                        } placeholder: {
+                                            Image(systemName: "photo")
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(minWidth: 0, maxWidth: .infinity)
+                                                .aspectRatio(1, contentMode: .fit)
+                                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.white, lineWidth: 2))
+                                        }
                                     }
                                     .onTapGesture {
-                                        selectedImage = item
+                                        selectedImage = obstacle.imagePath
+                                        selectedImageClassification = obstacle.imageClassification
                                         isSheetPresented = true
                                     }
                                 }
                             }
                             .sheet(isPresented: $isSheetPresented) {
-                                ObstacleSheetView(imageName: $selectedImage)
+                                ObstacleSheetView(imagePath: $selectedImage, imageClassification: $selectedImageClassification)
                             }
-                        }.padding()
-                        Button(action: {
-                            print("Clear gallery")
-                        }) {
-                            Text("Clear")
-                                .frame(maxWidth: screenWidth * 0.5)
-                                .frame(height: 48)
                         }
-                        .buttonStyle(.bordered)
-                        .disabled(false)
-                    }.padding(.horizontal)
+                    }.padding()
                 }
             }
             .navigationTitle("Obstacle Gallery")
@@ -71,6 +73,6 @@ struct GalleryView: View {
 
 struct GalleryView_Previews: PreviewProvider {
     static var previews: some View {
-        GalleryView()
+        GalleryView().environmentObject(ApiManager())
     }
 }

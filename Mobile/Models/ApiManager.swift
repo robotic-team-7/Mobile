@@ -322,7 +322,7 @@ struct MowingSession: Decodable, Identifiable {
 }
 
 
-struct Obstacle: Decodable, Identifiable {
+struct Obstacle: Decodable, Identifiable, Hashable {
     var obstacleId: Int
     var imagePath: String
     var obstaclePosition: [CGFloat]
