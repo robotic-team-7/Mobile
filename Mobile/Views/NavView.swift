@@ -28,9 +28,6 @@ struct NavView: View {
     }
 
     var body: some View {
-        // if (KeychainWrapper.standard.string(forKey: "accessToken") == nil) {
-        //     SignInView()
-        // }
         if (!appSettings.isSignedIn) {
             SignInView()
         }
@@ -67,6 +64,7 @@ struct NavView: View {
 struct NavView_Previews: PreviewProvider {
     static var previews: some View {
         NavView()
+            .environmentObject(ApiManager())
             .environmentObject(AppSettings())
     }
 }
