@@ -11,6 +11,9 @@ struct MapView: View {
     @State private var mowerPath = [Line]()
     @State private var mowerPosition = CGPoint()
     @State private var obstacles = [CGPoint]()
+    @State var isSheetPresented = false
+    @State var selectedImage = ""
+    @State var selectedImageClassification = ""
     let timer = Timer.publish(every: 10, on: .main, in: .common).autoconnect()
     @EnvironmentObject private var appSettings: AppSettings
     @EnvironmentObject private var apiManager: ApiManager
@@ -48,6 +51,13 @@ struct MapView: View {
                                     .position(CGPoint(x: Obstacle.obstaclePosition[0], y: Obstacle.obstaclePosition[1]))
                                     .foregroundColor(.yellow)
                                     .font(.largeTitle)
+                                    .onTapGesture {
+                                        selectedImage = Obstacle.imagePath
+                                        selectedImageClassification = Obstacle.imageClassification
+                                        isSheetPresented = true
+                                    }
+                            }.sheet(isPresented: $isSheetPresented) {
+                                ObstacleSheetView(imagePath: $selectedImage, imageClassification: $selectedImageClassification)
                             }
                             if (!apiManager.mowingSession.first!.mowerPositions.points.isEmpty){
                                 Image(systemName: "mappin.and.ellipse")
@@ -90,6 +100,8 @@ struct MapView: View {
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
         MapView()
+            .environmentObject(ApiManager())
+            .environmentObject(AppSettings())
     }
 }
 
