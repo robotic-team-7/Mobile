@@ -17,6 +17,7 @@ struct GalleryView: View {
     let screenWidth = UIScreen.main.bounds.size.width
     @State var isSheetPresented = false
     @State var selectedImage = ""
+    @State var selectedImageClassification = ""
     
     var body: some View {
         NavigationView {
@@ -52,12 +53,13 @@ struct GalleryView: View {
                                     }
                                     .onTapGesture {
                                         selectedImage = obstacle.imagePath
+                                        selectedImageClassification = obstacle.imageClassification
                                         isSheetPresented = true
                                     }
                                 }
                             }
                             .sheet(isPresented: $isSheetPresented) {
-                                ObstacleSheetView(imagePath: $selectedImage)
+                                ObstacleSheetView(imagePath: $selectedImage, imageClassification: $selectedImageClassification)
                             }
                         }
                     }.padding()

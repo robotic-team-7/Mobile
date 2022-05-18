@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ObstacleSheetView: View {
     @Binding var imagePath: String
-    var imageClassification: String = "Fox"
+    @Binding var imageClassification: String
     
     var body: some View {
         ZStack (alignment: .top) {
@@ -33,11 +33,11 @@ struct ObstacleSheetView: View {
                         .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.white, lineWidth: 2))
                 }.padding(.horizontal, 3)
                 VStack {
-                    Text("Image classification:")
+                    Text("It's a")
                         .font(.title2)
                     Divider().background(Color.scheme.fg)
                     Text(imageClassification)
-                        .font(.title2)
+                        .font(.title)
                 }
                 .foregroundColor(Color.scheme.fg)
                 .padding()
@@ -49,6 +49,6 @@ struct ObstacleSheetView: View {
 
 struct ObstacleSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        ObstacleSheetView(imagePath: .constant("fox"))
+        ObstacleSheetView(imagePath: .constant("image"), imageClassification: .constant("image classification"))
     }
 }
