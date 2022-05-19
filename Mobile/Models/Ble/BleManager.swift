@@ -19,6 +19,7 @@ class BleManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     var myCentral: CBCentralManager!
     var myPeripheral: CBPeripheral!
     
+    @Published var isScanning = false
     @Published var isSwitchedOn = false
     @Published var isDisconnected = true
     @Published var peripherals = [Peripheral]()
@@ -72,6 +73,7 @@ class BleManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     
     func startScanning() {
         print("start scanning")
+        isScanning = true
         self.peripherals = []
         myCentral.scanForPeripherals(withServices: nil, options: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
@@ -82,6 +84,7 @@ class BleManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     func stopScanning() {
         print("stopScanning")
         myCentral.stopScan()
+        isScanning = false
     }
     
     func writeOutgoingValue(data: String){

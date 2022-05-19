@@ -25,16 +25,24 @@ struct ControllerView: View {
                 }
                 else if bleManager.isDisconnected {
                     VStack {
-                        List(bleManager.peripherals) { peripheral in
-                            Button(action: {
-                                bleManager.connectToPeripheral(peripheral: peripheral.object)
-                            }) {
-                                HStack {
-                                    Text(peripheral.name)
-                                    Spacer()
-                                    Text(String(peripheral.rssi))
-                                }
-                            }.listRowBackground(Color.scheme.darkBg)}
+                        ZStack {
+                            List(bleManager.peripherals) { peripheral in
+                                Button(action: {
+                                    bleManager.connectToPeripheral(peripheral: peripheral.object)
+                                }) {
+                                    HStack {
+                                        Text(peripheral.name)
+                                        Spacer()
+                                        Text(String(peripheral.rssi))
+                                    }
+                                }.listRowBackground(Color.scheme.darkBg)}
+                            VStack {
+                                Text("Scanning")
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                            }
+                            .opacity(bleManager.isScanning ? 1 : 0)
+                        }
                         Spacer()
                         Text("Status")
                         if bleManager.isSwitchedOn {
@@ -47,13 +55,16 @@ struct ControllerView: View {
                         }
                         HStack {
                             Button(action: {
-                                bleManager.startScanning()
+                                Task {
+                                    bleManager.startScanning()
+                                }
                             }) {
                                 Text("Scan")
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 24)
                             }
                             .buttonStyle(.bordered)
+                            .disabled(bleManager.isScanning)
                             Button(action: {
                                 bleManager.disconnectPeripheral()
                             }) {
