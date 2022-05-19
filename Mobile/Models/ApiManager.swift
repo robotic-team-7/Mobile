@@ -301,6 +301,7 @@ struct Mower: Decodable, Identifiable {
 
 struct MowingSession: Decodable, Identifiable {
     var mowingSessionId: Int
+    var userId: String
     var mowerPositions: MowerPositions
     var createdAt: String
     var mowerId: String
@@ -309,6 +310,7 @@ struct MowingSession: Decodable, Identifiable {
     
     enum CodingKeys: String, CodingKey {
         case mowingSessionId
+        case userId
         case mowerPositions
         case createdAt
         case mowerId
@@ -318,6 +320,7 @@ struct MowingSession: Decodable, Identifiable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         mowingSessionId = try container.decode(Int.self, forKey: .mowingSessionId)
+        userId = try container.decode(String.self, forKey: .userId)
         mowerPositions = try container.decode(MowerPositions.self, forKey: .mowerPositions)
         createdAt = try container.decode(String.self, forKey: .createdAt)
         mowerId = try container.decode(String.self, forKey: .mowerId)
@@ -330,7 +333,7 @@ struct MowingSession: Decodable, Identifiable {
 struct Obstacle: Decodable, Identifiable, Hashable {
     var obstacleId: Int
     var imagePath: String
-    var obstaclePosition: [CGFloat]
+    var obstaclePosition: [String]
     var imageClassification: String
     var id: Int {
         obstacleId
