@@ -48,7 +48,7 @@ struct MapView: View {
                         if (!apiManager.mowingSession.isEmpty){
                             ForEach(apiManager.mowingSession.first!.Obstacles) { Obstacle in
                                 Image(systemName: "exclamationmark.triangle.fill")
-                                    .position(CGPoint(x: Obstacle.obstaclePosition[0], y: Obstacle.obstaclePosition[1]))
+                                    .position(CGPoint(x: CGFloat(Double(Obstacle.obstaclePosition[0])!), y: CGFloat(Double(Obstacle.obstaclePosition[1])!)))
                                     .foregroundColor(.yellow)
                                     .font(.largeTitle)
                                     .onTapGesture {
