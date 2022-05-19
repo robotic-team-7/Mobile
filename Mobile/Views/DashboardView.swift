@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftKeychainWrapper
 
 struct DashboardView: View {
     @EnvironmentObject private var appSettings: AppSettings
@@ -18,8 +19,8 @@ struct DashboardView: View {
                 VStack {
                     // Status items for mower
                     HStack {
-                        DashItem(title: "Status", text: "\(apiManager.mower.first!.status)", image: "togglepower", progress: nil)
-                        DashItem(title: "Mower", text: "\(apiManager.mower.first!.id)", image: "bolt.square.fill",  progress: Double(apiManager.mower.capacity) / 100)
+                        DashItem(title: "Status", text: "\(apiManager.mower.first?.status ?? "")", image: nil, progress: nil)
+                        DashItem(title: "Mower", text: "\(apiManager.mower.first?.id ?? "")", image: nil,  progress: nil)
                     }
                     .fixedSize(horizontal: false, vertical: true)
                     // Status items for mowing session
@@ -30,42 +31,55 @@ struct DashboardView: View {
                         }.fixedSize(horizontal: false, vertical: true)
                     }
                     HStack {
-                        VStack (alignment: .leading) {
-                            Text("Power")
+                        VStack (alignment: .center) {
+                            Text("Mode")
                                 .font(.title3.bold())
-                            Spacer()
-                            Toggle(isOn: $appSettings.mowerIsOn ){}
-                                .labelsHidden()
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .onChange(of: appSettings.mowerIsOn) { on in
-                                    print(on)
-                                    var status = "stop"
-                                    if (on) {
-                                        status = "start auto"
+                            HStack(alignment: .center) {
+                                Button(action: {
+                                    apiManager.setMowerStatus(mowerId: apiManager.mower.first!.mowerId, status: "stop", appSettings: self.appSettings)
+                                }) {
+                                    VStack {
+                                        Image(systemName: "power")
+                                            .frame(width: 48, height: 48)
+                                            .background(Color.scheme.darkerFg)
+                                            .clipShape(Circle())
+                                        Text("Stop")
                                     }
-                                    apiManager.setMowerStatus(mowerId: apiManager.mower.first!.mowerId, status: status, appSettings: self.appSettings)
                                 }
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                        .padding(10)
-                        .background(Color.scheme.darkBg)
-                        .cornerRadius(/*@START_MENU_TOKEN@*/5.0/*@END_MENU_TOKEN@*/)
-                        VStack (alignment: .leading) {
-                            Text("Manual Mode")
-                                .font(.title3.bold())
-                            Spacer()
-                            Toggle(isOn: $appSettings.mowerIsBle ){}
-                                .labelsHidden()
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .onChange(of: appSettings.mowerIsBle) { on in
-                                    var status = "stop"
-                                    if (on) {
-                                        status = "start manual"
+                                .buttonStyle(PlainButtonStyle())
+                                .disabled(appSettings.mowerStop)
+                                Button(action: {
+                                    apiManager.setMowerStatus(mowerId: apiManager.mower.first!.mowerId, status: "start auto", appSettings: self.appSettings)
+                                }) {
+                                    VStack {
+                                        Image(systemName: "bolt.fill")
+                                            .frame(width: 48, height: 48)
+                                            .background(Color.scheme.darkerFg)
+                                            .clipShape(Circle())
+                                        Text("Auto")
                                     }
-                                    apiManager.setMowerStatus(mowerId: apiManager.mower.first!.mowerId, status: status, appSettings: self.appSettings)
                                 }
+                                .buttonStyle(PlainButtonStyle())
+                                .disabled(appSettings.mowerAuto)
+                                
+                                
+                                Button(action: {
+                                    apiManager.setMowerStatus(mowerId: apiManager.mower.first!.mowerId, status: "start bt", appSettings: self.appSettings)
+                                    
+                                }) {
+                                    VStack {
+                                        Image(systemName: "gamecontroller.fill")
+                                            .frame(width: 48, height: 48)
+                                            .background(Color.scheme.darkerFg)
+                                            .clipShape(Circle())
+                                        Text("Remote")
+                                    }
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                .disabled(appSettings.mowerBle)
+                            }
                         }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                         .padding(10)
                         .background(Color.scheme.darkBg)
                         .cornerRadius(/*@START_MENU_TOKEN@*/5.0/*@END_MENU_TOKEN@*/)
@@ -89,19 +103,34 @@ struct DashboardView: View {
                                         .frame(maxWidth: .infinity)
                                         .frame(height: 24)
                                 }.buttonStyle(.bordered)
+                                Button(action: {
+                                    logOut()
+                                }) {
+                                    Text("Sign Out")
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 24)
+                                }.buttonStyle(.bordered)
                             }
                         }
                     }
                     else {
-                        Button(action: {
-                            apiManager.mowingSession = []
-                        }) {
-                            Text("Disconnect from session")
-                                .frame(maxWidth: screenWidth * 0.5)
-                                .frame(height: 48)
+                        HStack {
+                            Button(action: {
+                                apiManager.mowingSession = []
+                            }) {
+                                Text("Close session")
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 24)
+                            }
+                            .buttonStyle(.bordered)
+                            Button(action: {
+                                logOut()
+                            }) {
+                                Text("Sign Out")
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 24)
+                            }.buttonStyle(.bordered)
                         }
-                        .buttonStyle(.bordered)
-                        .disabled(false)
                     }
                 }.padding(10)
             }
@@ -109,6 +138,18 @@ struct DashboardView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
     }
+    
+    func logOut(){
+        KeychainWrapper.standard.removeObject(forKey: "accessToken")
+        apiManager.mowingSession = []
+        apiManager.mowers = []
+        apiManager.mowingSessions = []
+        appSettings.mowerBle = false
+        appSettings.mowerAuto = false
+        appSettings.mowerStop = false
+        appSettings.isSignedIn = false
+    }
+    
     // builder for reusable status item.
     @ViewBuilder
     func DashItem(title: String, text: String, image: String?, progress: CGFloat?)->some View {
@@ -147,6 +188,8 @@ struct DashboardView: View {
     struct DashboardView_Previews: PreviewProvider {
         static var previews: some View {
             DashboardView()
+                .environmentObject(ApiManager())
+                .environmentObject(AppSettings())
         }
     }
 }

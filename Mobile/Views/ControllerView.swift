@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ControllerView: View {
     @ObservedObject var bleManager = BleManager()
-    @State private var deviceSelected = false
+    @EnvironmentObject private var appSettings: AppSettings
+    @EnvironmentObject private var apiManager: ApiManager
     init() {
         UITableView.appearance().backgroundColor = .clear // tableview background
         UITableViewCell.appearance().backgroundColor = .clear // cell background
@@ -19,15 +20,21 @@ struct ControllerView: View {
             ZStack {
                 Color.scheme.bg
                     .ignoresSafeArea()
-                if bleManager.isDisconnected {
+                if !appSettings.mowerBle {
+                    Text("Mower not in BLE Mode")
+                }
+                else if bleManager.isDisconnected {
                     VStack {
-                        List(bleManager.peripherals) { peripheral in Button(action: {deviceSelected = true; bleManager.connectToPeripheral(peripheral: peripheral.object)}){
-                            HStack {
-                                Text(peripheral.name)
-                                Spacer()
-                                Text(String(peripheral.rssi))
-                            }
-                        }.listRowBackground(Color.scheme.darkBg)}
+                        List(bleManager.peripherals) { peripheral in
+                            Button(action: {
+                                bleManager.connectToPeripheral(peripheral: peripheral.object)
+                            }) {
+                                HStack {
+                                    Text(peripheral.name)
+                                    Spacer()
+                                    Text(String(peripheral.rssi))
+                                }
+                            }.listRowBackground(Color.scheme.darkBg)}
                         Spacer()
                         Text("Status")
                         if bleManager.isSwitchedOn {
@@ -44,15 +51,18 @@ struct ControllerView: View {
                             }) {
                                 Text("Scan")
                                     .frame(maxWidth: .infinity)
-                                    .frame(height: 48)
+                                    .frame(height: 24)
                             }
+                            .buttonStyle(.bordered)
                             Button(action: {
                                 bleManager.disconnectPeripheral()
                             }) {
                                 Text("Disconnect")
                                     .frame(maxWidth: .infinity)
-                                    .frame(height: 48)
-                            }.disabled(bleManager.isDisconnected == true)
+                                    .frame(height: 24)
+                            }
+                            .buttonStyle(.bordered)
+                            .disabled(bleManager.isDisconnected == true)
                         }
                     }.padding()
                 }
@@ -70,7 +80,8 @@ struct ControllerView: View {
                             }
                             .buttonStyle(.bordered)
                             Button(action: {
-                                bleManager.writeOutgoingValue(data: "MS")
+                                bleManager.writeOutgoingValue(data: "MT")
+                                // bleManager.toggleMowerMode()
                             }) {
                                 Image(systemName: "power")
                                     .font(.largeTitle)
@@ -110,16 +121,14 @@ struct ControllerView: View {
                                     .frame(width: 48, height: 48)
                             }
                             .buttonStyle(.bordered)
-                            //Spacer()
                             Button(action: {
+                                bleManager.writeOutgoingValue(data: "MS")
                             }) {
-                                Image(systemName: "")
+                                Image(systemName: "nosign")
                                     .font(.largeTitle)
                                     .frame(width: 48, height: 48)
-                                
                             }
                             .buttonStyle(.bordered)
-                            .hidden()
                             Button(action: {
                                 bleManager.writeOutgoingValue(data: "MR")
                             }) {
@@ -155,5 +164,7 @@ struct ControllerView: View {
 struct ControllerView_Previews: PreviewProvider {
     static var previews: some View {
         ControllerView()
+            .environmentObject(ApiManager())
+            .environmentObject(AppSettings())
     }
 }

@@ -34,14 +34,19 @@ class ApiManager: ObservableObject {
                         self.mower = try JSONDecoder().decode([Mower].self, from: data)
                         let mowerStatus = self.mower.first!.status
                         if mowerStatus == "stop" {
-                            appSettings.mowerIsOn = false
-                            appSettings.mowerIsBle = false
+                            appSettings.mowerStop = true
+                            appSettings.mowerBle = false
+                            appSettings.mowerAuto = false
                         }
-                        else {
-                            appSettings.mowerIsOn = true
-                            if mowerStatus == "start manual" {
-                                appSettings.mowerIsBle = true
-                            }
+                        else if mowerStatus == "start auto" {
+                            appSettings.mowerAuto = true
+                            appSettings.mowerStop = false
+                            appSettings.mowerBle = false
+                        }
+                        else if mowerStatus == "start bt" {
+                            appSettings.mowerBle = true
+                            appSettings.mowerAuto = false
+                            appSettings.mowerStop = false
                         }
                     } catch {
                         print(error)

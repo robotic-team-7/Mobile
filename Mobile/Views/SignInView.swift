@@ -110,6 +110,7 @@ struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
         SignInView()
             .preferredColorScheme(.dark)
+            .environmentObject(ApiManager())
             .environmentObject(AppSettings())
     }
 }

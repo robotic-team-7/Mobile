@@ -31,7 +31,7 @@ struct GalleryView: View {
                     VStack {
                         ScrollView {
                             LazyVGrid(columns: columns) {
-                                ForEach(apiManager.mowingSession[0].Obstacles, id: \.self) { obstacle in
+                                ForEach(apiManager.mowingSession.first!.Obstacles) { obstacle in
                                     ZStack {
                                         AsyncImage(url: URL(string: obstacle.imagePath)) { image in
                                             image
@@ -73,6 +73,8 @@ struct GalleryView: View {
 
 struct GalleryView_Previews: PreviewProvider {
     static var previews: some View {
-        GalleryView().environmentObject(ApiManager())
+        GalleryView()
+            .environmentObject(ApiManager())
+            .environmentObject(AppSettings())
     }
 }

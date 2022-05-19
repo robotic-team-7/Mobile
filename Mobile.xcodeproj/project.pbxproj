@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		CE0ECE26281174DC00ACC3CC /* ControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0ECE25281174DC00ACC3CC /* ControllerView.swift */; };
 		CE66C03D280F403F00ED786B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE66C03C280F403F00ED786B /* AppSettings.swift */; };
-		CE999D24282D290F00BBD6E0 /* AddMowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE999D23282D290F00BBD6E0 /* AddMowerView.swift */; };
 		CEAF439A27FC95B100C21F5B /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439927FC95B100C21F5B /* SplashView.swift */; };
 		CEAF439C27FC95D200C21F5B /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439B27FC95D200C21F5B /* DashboardView.swift */; };
 		CEAF43A027FC96F700C21F5B /* NavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF439F27FC96F700C21F5B /* NavView.swift */; };
@@ -53,7 +52,6 @@
 /* Begin PBXFileReference section */
 		CE0ECE25281174DC00ACC3CC /* ControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerView.swift; sourceTree = "<group>"; };
 		CE66C03C280F403F00ED786B /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
-		CE999D23282D290F00BBD6E0 /* AddMowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMowerView.swift; sourceTree = "<group>"; };
 		CEAF439927FC95B100C21F5B /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		CEAF439B27FC95D200C21F5B /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		CEAF439F27FC96F700C21F5B /* NavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavView.swift; sourceTree = "<group>"; };
@@ -117,7 +115,6 @@
 				CE0ECE25281174DC00ACC3CC /* ControllerView.swift */,
 				D3EED7EF281AC582002D8E1F /* SignInView.swift */,
 				CED29C88282BB46E00E14244 /* MowerConnectView.swift */,
-				CE999D23282D290F00BBD6E0 /* AddMowerView.swift */,
 				D35BD2542835289600B09ED8 /* ObstacleSheetView.swift */,
 			);
 			path = Views;
@@ -369,7 +366,6 @@
 				CEE7F52D27F4480900913F7F /* ContentView.swift in Sources */,
 				D36B458D28048CA000E4310A /* GalleryView.swift in Sources */,
 				CEB4BF50281B16F3009BB1F2 /* BlePeripheral.swift in Sources */,
-				CE999D24282D290F00BBD6E0 /* AddMowerView.swift in Sources */,
 				D36B4591280845CB00E4310A /* ApiManager.swift in Sources */,
 				CEC53A26281AE09C00352615 /* BleManager.swift in Sources */,
 				D3EED7F0281AC582002D8E1F /* SignInView.swift in Sources */,
