@@ -88,7 +88,7 @@ struct DashboardView: View {
                     if (apiManager.mowingSession.isEmpty) {
                         VStack {
                             Text("Mowing Sessions")
-                            List(apiManager.mowingSessions) { mowingSession in
+                            List(apiManager.mowingSessions.reversed()) { mowingSession in
                                 Button(action: {
                                     apiManager.getMowingSession(sessionId: mowingSession.mowingSessionId, appSettings: self.appSettings)
                                 }){
