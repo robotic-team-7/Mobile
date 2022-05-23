@@ -63,7 +63,6 @@ struct MowerConnectView: View {
                     HStack {
                         Button(action: {
                             apiManager.getMowers(appSettings: self.appSettings)
-                            appSettings.isSignedIn = false
                         }) {
                             Text("Refresh")
                                 .frame(maxWidth: .infinity)
